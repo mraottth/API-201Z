@@ -16,7 +16,7 @@
 - Importing and cleaning data
 - Plotting functions
 - Exploratory data analysis & summary stats
-- Statistical tests
+- Statistical analysis
 - R Markdown file
 
 
