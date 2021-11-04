@@ -12,9 +12,12 @@
 - Libraries & Packages
 
 
-
 ### Code
-
+- Importing and cleaning data
+- Plotting functions
+- Exploratory data analysis & summary stats
+- Statistical tests
+- R Markdown file
 
 
 ### Outputs
