@@ -146,4 +146,4 @@ df_weekly = df_joined_cases.set_index('date').groupby(['state', '2020 Election W
     .resample('W')[['WoW_%_cases', 'WoW_%_vax']].mean().reset_index()
 
 # Output df_joined_cases to Output folder
-
+### TO DO
