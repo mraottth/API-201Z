@@ -1,6 +1,6 @@
-# Import libraries from libraries.py
-# Import data from import_data.py
-# Import global variables from global_variables.py
+from libraries import * # Import libraries from libraries.py
+from import_data import * # Import data from import_data.py
+from global_variables import * # Import global variables from global_variables.py
 
 ####################
 # PART 1 CASES DATA 
