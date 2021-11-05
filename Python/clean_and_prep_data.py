@@ -146,4 +146,5 @@ df_weekly = df_joined_cases.set_index('date').groupby(['state', '2020 Election W
     .resample('W')[['WoW_%_cases', 'WoW_%_vax']].mean().reset_index()
 
 # Output df_joined_cases to Output folder
-### TO DO
+df_joined_cases.to_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/cleaned_joined_states.csv')
+
