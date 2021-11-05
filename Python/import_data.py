@@ -1,6 +1,6 @@
 # Read in state-level cases & deaths data from NYT GitHub
 states_cases = 'https://github.com/nytimes/covid-19-data/raw/master/us-states.csv'
-df_states = pd.read_csv(states_cases, parse_dates=['date'])
+df_cases = pd.read_csv(states_cases, parse_dates=['date']).query('date' >= "2021-02-13"')].sort_values(['state','date'], ascending=True)
 
 
 # Read in state-level vaccine data from CDC
