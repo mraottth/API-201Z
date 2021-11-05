@@ -1,5 +1,4 @@
-# Import libraries from libraries.py
-from libraries import *
+from libraries import * # Import libraries from libraries.py
 
 # Read in state-level cases & deaths data from NYT GitHub
 states_cases = 'https://github.com/nytimes/covid-19-data/raw/master/us-states.csv'

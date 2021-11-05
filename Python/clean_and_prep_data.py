@@ -1,6 +1,19 @@
 from libraries import * # Import libraries from libraries.py
-from import_data import * # Import data from import_data.py
 from global_variables import * # Import global variables from global_variables.py
+
+####################
+# PART 0 IMPORT DATA 
+####################
+
+# Get files which were outputted form import data to Data Sources folder
+df_cases = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/cases.csv', parse_dates=['date'])
+df_vax =  pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/vax.csv', parse_dates=['Date'])
+election = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/election.csv')
+df_svi = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/svi.csv')
+df_county_pop = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/county_pop.csv')
+df_state_pop = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/state_pop.csv')
+states = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/states.csv')
+
 
 ####################
 # PART 1 CASES DATA 
@@ -69,7 +82,7 @@ df_county_pop = pd.merge(
     right_on='state'
     )
 # Join svi to county pop
-df_svi = pd.merge(df_svi, df_county_pop, left_on=['State Code','County Name'], right_on=['index','CTYNAME'])
+df_svi = pd.merge(df_svi, df_county_pop, left_on=['State Code','County Name'], right_on=['code','CTYNAME'])
 
 # Create weighted average function 
 def wavg(data, avg_name, weight_name):
