@@ -106,7 +106,7 @@ plt.xlabel("Rate of case growth (week-over-week % change)")
 plt.ylabel('% of remaining unvaxed pop. receiving jab in past week')
 plt.title('How do unvaccinated people respond to increasing in-state caseloads?\nDate range: '\
         + START_DATE + ' to ' + END_DATE, fontsize=18)
-if save_images == True:
+if SAVE_IMAGES == True:
     plt.savefig('/Users/mattroth/Desktop/HKS/MPP1/Fall 2021/API-201 Quant/Final Project Charts/unvax change/REG'\
             + 'How_do_unvaccinated_people_respond_to_increasing_in-state_caseloads_party.jpeg',            
             bbox_inches = "tight", dpi=150)
@@ -143,7 +143,7 @@ plt.xlabel("Rate of case growth (week-over-week % change)")
 plt.ylabel('% of remaining unvaxed pop. receiving jab in past week')
 plt.title('How do unvaccinated people respond to increasing in-state caseloads?\nDate range: '\
         + START_DATE + ' to ' + END_DATE, fontsize=18)
-if save_images == True:
+if SAVE_IMAGES == True:
     plt.savefig('/Users/mattroth/Desktop/HKS/MPP1/Fall 2021/API-201 Quant/Final Project Charts/unvax change/REG'\
             + 'How_do_unvaccinated_people_respond_to_increasing_in-state_caseloads_SVI.jpeg',            
             bbox_inches = "tight", dpi=150)
