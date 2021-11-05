@@ -9,14 +9,14 @@ df_joined_cases = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data 
 
 # Plot correlations between cases and vax split by party controlling for vax level
 lm(
-    data=df_joined_cases.query('`Population Vax Level` != "Roughly 30.0%" & @start_date <= date <= @end_date'),
+    data=df_joined_cases.query('`Population Vax Level` != "Roughly 30.0%" & @START_DATE <= date <= @END_DATE'),
     x='WoW_%_cases',
     y='WoW_%_vax',
     hue='2020 Election Winner',
     hue_levels={'Democrat':'blue', 'Republican':'red'},
     columns='Population Vax Level',
     title=('Controlling for vax-level, how do unvaccinated people respond to increasing in-state caseloads?\nDate range: '\
-        + start_date + ' to ' + end_date + ' -- Each point is one state on one day'\
+        + START_DATE + ' to ' + END_DATE + ' -- Each point is one state on one day'\
         , 1.2, 25),
     xlabel='Week-over-week growth in cases (% of cumulative)',
     ylabel='% of remaining unvaxed pop. receiving jab in past week',
@@ -26,14 +26,14 @@ lm(
 
 # Plot correlations between cases and vax split by party
 lm(
-    data=df_joined_cases.query('@start_date <= date <= @end_date'),
+    data=df_joined_cases.query('@START_DATE <= date <= @END_DATE'),
     x='WoW_%_cases',
     y='WoW_%_vax',
     hue='2020 Election Winner',
     hue_levels={'Democrat':'blue', 'Republican':'red'},
     columns=None,
     title=('How do unvaccinated people respond to increasing in-state caseloads?\nDate range: '\
-        + start_date + ' to ' + end_date + ' -- Each point is one state on one day'\
+        + START_DATE + ' to ' + END_DATE + ' -- Each point is one state on one day'\
         , 1.1, 12),
     xlabel='Week-over-week growth in cases (% of cumulative)',
     ylabel='% of remaining unvaxed pop. receiving jab in past week',
@@ -43,13 +43,13 @@ lm(
 
 # Jointplot of cases vs vax split by political party. One point for each state per day
 jp(
-    data=df_joined_cases.query('@start_date <= date <= @end_date'),
+    data=df_joined_cases.query('@START_DATE <= date <= @END_DATE'),
     x='WoW_%_cases',
     y='WoW_%_vax',
     hue='2020 Election Winner',
     hue_levels={'Democrat':'blue', 'Republican':'red'},
     title=('How do unvaccinated people respond to increasing in-state caseloads?\nDate range: '\
-        + start_date + ' to ' + end_date + ' -- Each point is one state on one day'\
+        + START_DATE + ' to ' + END_DATE + ' -- Each point is one state on one day'\
         , 1.1, 12), 
     xlabel='Week-over-week growth in cases (% of cumulative)',
     ylabel='% of remaining unvaxed pop. receiving jab in past week',
@@ -59,14 +59,14 @@ jp(
 
 # Jointplot of cases vs vax split by political party. Grouped by state with avg rates
 jp(
-    data=df_joined_cases.query('@start_date <= date <= @end_date')\
+    data=df_joined_cases.query('@START_DATE <= date <= @END_DATE')\
         .groupby(['state', '2020 Election Winner'])['WoW_%_cases','WoW_%_vax'].mean().reset_index(),
     x='WoW_%_cases',
     y='WoW_%_vax',
     hue='2020 Election Winner',
     hue_levels={'Democrat':'blue', 'Republican':'red'},
     title=('How do unvaccinated people respond to increasing in-state caseloads?\nDate range: '\
-        + start_date + ' to ' + end_date + ' -- Each point is avg per state in DateRange'\
+        + START_DATE + ' to ' + END_DATE + ' -- Each point is avg per state in DateRange'\
         , 1.1, 12), 
     xlabel='Week-over-week growth in cases (% of cumulative)',
     ylabel='% of remaining unvaxed pop. receiving jab in past week',
@@ -84,7 +84,7 @@ for state in df_vax['state'].unique():
     else:
         color = 'red'
     sns.regplot(
-        data=df_joined_cases[(df_joined_cases['state'] == state)].query('@start_date <= date <= @end_date'), 
+        data=df_joined_cases[(df_joined_cases['state'] == state)].query('@START_DATE <= date <= @END_DATE'), 
         x='WoW_%_cases', 
         y='WoW_%_vax',        
         color=color,
@@ -105,7 +105,7 @@ ax.xaxis.set_major_formatter(mtick.PercentFormatter(1.0))
 plt.xlabel("Rate of case growth (week-over-week % change)")
 plt.ylabel('% of remaining unvaxed pop. receiving jab in past week')
 plt.title('How do unvaccinated people respond to increasing in-state caseloads?\nDate range: '\
-        + start_date + ' to ' + end_date, fontsize=18)
+        + START_DATE + ' to ' + END_DATE, fontsize=18)
 if save_images == True:
     plt.savefig('/Users/mattroth/Desktop/HKS/MPP1/Fall 2021/API-201 Quant/Final Project Charts/unvax change/REG'\
             + 'How_do_unvaccinated_people_respond_to_increasing_in-state_caseloads_party.jpeg',            
@@ -122,7 +122,7 @@ for state in df_vax['state'].unique():
     else:
         color = 'red'
     sns.regplot(
-        data=df_joined_cases[(df_joined_cases['state'] == state)].query('@start_date <= date <= @end_date'), 
+        data=df_joined_cases[(df_joined_cases['state'] == state)].query('@START_DATE <= date <= @END_DATE'), 
         x='WoW_%_cases', 
         y='WoW_%_vax',        
         color=color,
@@ -142,7 +142,7 @@ ax.xaxis.set_major_formatter(mtick.PercentFormatter(1.0))
 plt.xlabel("Rate of case growth (week-over-week % change)")
 plt.ylabel('% of remaining unvaxed pop. receiving jab in past week')
 plt.title('How do unvaccinated people respond to increasing in-state caseloads?\nDate range: '\
-        + start_date + ' to ' + end_date, fontsize=18)
+        + START_DATE + ' to ' + END_DATE, fontsize=18)
 if save_images == True:
     plt.savefig('/Users/mattroth/Desktop/HKS/MPP1/Fall 2021/API-201 Quant/Final Project Charts/unvax change/REG'\
             + 'How_do_unvaccinated_people_respond_to_increasing_in-state_caseloads_SVI.jpeg',            
@@ -150,14 +150,14 @@ if save_images == True:
 
 # Jointplot of cases vs vax by SVI level grouped by state
 jp(    
-    data=df_joined_cases.query('@start_date <= date <= @end_date')\
+    data=df_joined_cases.query('@START_DATE <= date <= @END_DATE')\
         .groupby(['state', 'SVI Bucket'])['WoW_%_cases','WoW_%_vax'].mean().reset_index(),
     x='WoW_%_cases',
     y='WoW_%_vax',
     hue='SVI Bucket',
     hue_levels={'Very Low to Low':'green', 'Moderate':'gold', 'High to Very High':'red'},
     title=('How do unvaccinated people respond to increasing in-state caseloads?\nDate range: '\
-        + start_date + ' to ' + end_date + ' -- Each point is one state on one day'\
+        + START_DATE + ' to ' + END_DATE + ' -- Each point is one state on one day'\
         , 1.1, 12), 
     xlabel='Week-over-week growth in cases (% of cumulative)',
     ylabel='% of remaining unvaxed pop. receiving jab in past week',
@@ -169,13 +169,13 @@ jp(
 
 # Jointplot of cases vs vax by SVI level one point per state per day
 jp( 
-    data=df_joined_cases.query('@start_date <= date <= @end_date'),
+    data=df_joined_cases.query('@START_DATE <= date <= @END_DATE'),
     x='WoW_%_cases',
     y='WoW_%_vax',
     hue='SVI Bucket',
     hue_levels={'Very Low to Low':'green', 'Moderate':'gold', 'High to Very High':'red'},
     title=('How do unvaccinated people respond to increasing in-state caseloads?\nDate range: '\
-        + start_date + ' to ' + end_date + ' -- Each point is avg per state in DateRange'\
+        + START_DATE + ' to ' + END_DATE + ' -- Each point is avg per state in DateRange'\
         , 1.1, 12), 
     xlabel='Week-over-week growth in cases (% of cumulative)',
     ylabel='% of remaining unvaxed pop. receiving jab in past week',
@@ -185,7 +185,7 @@ jp(
 
 # Plot correlations between cases and vax for Rep and Dem split by SVI
 lm(
-    data=df_joined_cases.query('@start_date <= date <= @end_date'),
+    data=df_joined_cases.query('@START_DATE <= date <= @END_DATE'),
     x='WoW_%_cases',
     y='WoW_%_vax',
     hue='2020 Election Winner',
@@ -193,7 +193,7 @@ lm(
     columns='SVI Bucket',
     col_order=['Very Low to Low','Moderate','High to Very High'],
     title=('Controlling for SVI, how do unvaccinated people respond to increasing in-state caseloads?\nDate range: '\
-        + start_date + ' to ' + end_date + ' -- Each point is one state on one day'\
+        + START_DATE + ' to ' + END_DATE + ' -- Each point is one state on one day'\
         , 1.2, 25),
     xlabel='Week-over-week growth in cases (% of cumulative)',
     ylabel='% of remaining unvaxed pop. receiving jab in past week',
@@ -203,14 +203,14 @@ lm(
 
 # Plot correlations between cases and vax for Rep and Dem split by SVI
 lm(
-    data=df_joined_cases.query('@start_date <= date <= @end_date & `Population Vax Level` != "Roughly 30.0%"'),
+    data=df_joined_cases.query('@START_DATE <= date <= @END_DATE & `Population Vax Level` != "Roughly 30.0%"'),
     x='WoW_%_cases',
     y='WoW_%_vax',
     hue='SVI Bucket',
     hue_levels={'Very Low to Low':'green', 'Moderate':'gold', 'High to Very High':'red'},
     columns='Population Vax Level',    
     title=('Controlling for vax-level, how do unvaccinated people respond to increasing in-state caseloads?\nDate range: '\
-        + start_date + ' to ' + end_date + ' -- Each point is one state on one day'\
+        + START_DATE + ' to ' + END_DATE + ' -- Each point is one state on one day'\
         , 1.2, 25),
     xlabel='Week-over-week growth in cases (% of cumulative)',
     ylabel='% of remaining unvaxed pop. receiving jab in past week',
@@ -220,14 +220,14 @@ lm(
 
 # Plot correlations between cases and vax by SVI split by party
 lm(
-    data=df_joined_cases.query('@start_date <= date <= @end_date & `Population Vax Level` != "Roughly 30.0%"'),
+    data=df_joined_cases.query('@START_DATE <= date <= @END_DATE & `Population Vax Level` != "Roughly 30.0%"'),
     x='WoW_%_cases',
     y='WoW_%_vax',
     hue='SVI Bucket',
     hue_levels={'Very Low to Low':'green', 'Moderate':'gold', 'High to Very High':'red'},
     columns='2020 Election Winner',    
     title=('Controlling for party, how do unvaccinated people respond to increasing in-state caseloads?\nDate range: '\
-        + start_date + ' to ' + end_date + ' -- Each point is one state on one day'\
+        + START_DATE + ' to ' + END_DATE + ' -- Each point is one state on one day'\
         , 1.2, 17),
     xlabel='Week-over-week growth in cases (% of cumulative)',
     ylabel='% of remaining unvaxed pop. receiving jab in past week',
@@ -237,7 +237,7 @@ lm(
 
 # Plot correlations between cases and vax by SVI split by party controlling for vax level
 lm(
-    data=df_joined_cases.query('@start_date <= date <= @end_date & `Population Vax Level` != "Roughly 30.0%"'),
+    data=df_joined_cases.query('@START_DATE <= date <= @END_DATE & `Population Vax Level` != "Roughly 30.0%"'),
     x='WoW_%_cases',
     y='WoW_%_vax',
     hue='SVI Bucket',
@@ -245,7 +245,7 @@ lm(
     rows='2020 Election Winner',    
     columns='Population Vax Level',
     title=('Controlling for vax-level and party, how do unvaccinated people respond to increasing in-state caseloads?\nDate range: '\
-        + start_date + ' to ' + end_date + ' -- Each point is one state on one day'\
+        + START_DATE + ' to ' + END_DATE + ' -- Each point is one state on one day'\
         , 1.1, 30),
     xlabel='Week-over-week growth in cases (% of cumulative)',
     ylabel='% of remaining unvaxed pop. receiving jab in past week',

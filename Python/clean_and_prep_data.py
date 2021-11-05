@@ -7,7 +7,7 @@ from import_data import *
 ####################
 
 # If you want to refresh all the data, run the code in import_data.py
-if refresh_all_data == True:
+if REFRESH_ALL_DATA == True:
     import_data()
 
 # Get files which were outputted form import data to Data Sources folder
@@ -55,7 +55,7 @@ df_vax['unvaxxed'] = (1 - (df_vax['Administered_Dose1_Pop_Pct']/100)) * df_vax['
 df_vax['WoW_%'] = (df_vax.groupby(['state'])['unvaxxed'].shift(7) - df_vax['unvaxxed'] ) / df_vax.groupby(['state'])['unvaxxed'].shift(7)
 
 # Create column for n days ago datestamp. Change global variable n to offset cases and vax timeframes by n days
-df_vax['date_minus_n'] = df_vax['Date'] - timedelta(days=n)
+df_vax['date_minus_n'] = df_vax['Date'] - timedelta(days=N)
 
 # Join df_vax and df_cases into the main joined table
 df_joined_cases = pd.merge(
@@ -154,7 +154,7 @@ df_joined_cases = df_joined_cases.drop(['Date','Location','state/region'], axis=
 df_joined_cases['2020 Election Winner'] = ['Democrat' if x == 'D' else 'Republican' if x == 'R' else '' for x in df_joined_cases['2020 Election Winner']]
 
 # Cut everything before start and after end using global variables
-df_joined_cases = df_joined_cases[(df_joined_cases['date'] >= start_date) & (df_joined_cases['date'] <= end_date)]
+df_joined_cases = df_joined_cases[(df_joined_cases['date'] >= START_DATE) & (df_joined_cases['date'] <= END_DATE)]
 
 # Remove inf values
 df_joined_cases.replace([np.inf, -np.inf], np.nan, inplace=True)

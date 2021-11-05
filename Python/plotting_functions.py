@@ -73,7 +73,7 @@ def line_for_each_state(data, x, y, hue_col, hue_levels, title, xlabel, ylabel, 
         ax.xaxis.set_major_formatter(mtick.PercentFormatter(1.0))
     
     # Save image to Output folder
-    if save_images == True:
+    if SAVE_IMAGES == True:
         plt.savefig(''\
             + title.replace(' ', '_') + hue_col.replace(' ', '_') + '.jpeg', 
             bbox_inches = "tight", dpi=150)
@@ -131,7 +131,7 @@ def lm(data, x, y, hue, hue_levels, columns, title, xlabel, ylabel, yformat=None
             a.xaxis.set_major_formatter(mtick.PercentFormatter(1.0))      
     
     # Save to Output folder
-    if save_images == True:
+    if SAVE_IMAGES == True:
         plt.savefig(''\
             + title[0].replace(' ', '_') + hue.replace(' ', '_') + '.jpeg', 
             bbox_inches = "tight", dpi=150)
@@ -156,7 +156,7 @@ def jp(data, x, y, hue, hue_levels, title, xlabel, ylabel, yformat=None, xformat
     g.set_axis_labels(xlabel, ylabel)
     
     # Save to Output folder
-    if save_images == True:
+    if SAVE_IMAGES == True:
         plt.savefig('Output'\
             + title[0].replace(' ', '_') + hue.replace(' ', '_') + '.jpeg', 
             bbox_inches = "tight", dpi=150)
