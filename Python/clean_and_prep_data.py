@@ -1,6 +1,6 @@
 from libraries import * # Import libraries from libraries.py
 from global_variables import * # Import global variables from global_variables.py
-
+from import_data import *
 
 ####################
 # PART 0 IMPORT DATA 
@@ -8,18 +8,16 @@ from global_variables import * # Import global variables from global_variables.p
 
 # If you want to refresh all the data, run the code in import_data.py
 if refresh_all_data == True:
-    from import_data import *
+    import_data()
 
-else: # Otherwise just grab the data from the output files in Data Sources
-
-    # Get files which were outputted form import data to Data Sources folder
-    df_cases = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/cases.csv', parse_dates=['date'])
-    df_vax =  pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/vax.csv', parse_dates=['Date'])
-    election = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/election.csv')
-    df_svi = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/svi.csv')
-    df_county_pop = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/county_pop.csv')
-    df_state_pop = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/state_pop.csv')
-    states = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/states.csv')
+# Get files which were outputted form import data to Data Sources folder
+df_cases = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/cases.csv', parse_dates=['date'])
+df_vax =  pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/vax.csv', parse_dates=['Date'])
+election = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/election.csv')
+df_svi = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/svi.csv')
+df_county_pop = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/county_pop.csv')
+df_state_pop = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/state_pop.csv')
+states = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/states.csv')
 
 
 ####################
