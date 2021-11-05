@@ -1,8 +1,9 @@
 # Import libraries from libraries.py
+from libraries import *
 
 # Read in state-level cases & deaths data from NYT GitHub
 states_cases = 'https://github.com/nytimes/covid-19-data/raw/master/us-states.csv'
-df_cases = pd.read_csv(states_cases, parse_dates=['date']).query('date >= "2021-02-13"')].sort_values(['state','date'], ascending=True)
+df_cases = pd.read_csv(states_cases, parse_dates=['date']).query('date >= "2021-02-13"').sort_values(['state','date'], ascending=True)
 
 
 # Read in state-level vaccine data from CDC
@@ -35,5 +36,15 @@ df_county_pop = pd.read_csv(county_pop, encoding = "ISO-8859-1", usecols=['STNAM
 
 
 # Write all of the dataframes to Data Sources folder as csvs
-## TO DO
+df_list = [
+    ('cases', df_cases),
+    ('vax', df_vax),
+    ('state_pop', df_state_pop),
+    ('election', election),
+    ('svi', df_svi),
+    ('county_pop', df_county_pop)
+    ]
+
+for name, df in df_list:
+    df.to_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/' + name + '.csv')
 
