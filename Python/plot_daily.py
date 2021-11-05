@@ -1,10 +1,11 @@
-# Import libraries from libraries.py
-from libraries import *
-# Import plotting functions from plotting_functions.py
+from libraries import * # Import libraries from libraries.py
+from import_data import * # Import data from import_data.py
+from global_variables import * # Import global variables from global_variables.py
+from plotting_functions import * # Import plotting functions from plotting_functions.py
+
+
 # Import df_joined_cases from Outputs folder
-# Import global variables from global_variables.py
-
-
+df_joined_cases = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/cleaned_joined_states.csv')
 
 # Plot correlations between cases and vax split by party controlling for vax level
 lm(
