@@ -30,3 +30,8 @@ df_svi = pd.read_csv(svi_url, usecols=['State Code', 'County Name', 'Social Vuln
 # Read in county population data to weight SVI 
 county_pop = 'https://www2.census.gov/programs-surveys/popest/datasets/2010-2019/counties/totals/co-est2019-alldata.csv'
 df_county_pop = pd.read_csv(county_pop, encoding = "ISO-8859-1", usecols=['STNAME','CTYNAME','POPESTIMATE2019'])
+
+
+# Write all of the dataframes to Data Sources folder as csvs
+## TO DO
+
