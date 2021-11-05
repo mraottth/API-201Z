@@ -8,3 +8,4 @@ start_date = '2021-07-01'
 end_date = '2021-10-31'
 n = 0 # Days to offset vax response by
 save_images = True
+refresh_all_data = False
