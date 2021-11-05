@@ -6,7 +6,7 @@ df_cases = pd.read_csv(states_cases, parse_dates=['date']).query('date >= "2021-
 # Read in state-level vaccine data from CDC
 state_vax = 'https://data.cdc.gov/api/views/unsk-b7fc/rows.csv?accessType=DOWNLOAD'
 cols = ['Date','Location','Recip_Administered', 'Administered_Dose1_Recip','Administered_Dose1_Pop_Pct','Series_Complete_Yes','Series_Complete_Pop_Pct']
-df_vax = pd.read_csv(state_vax, parse_dates=['Date'])[cols]
+df_vax = pd.read_csv(state_vax, parse_dates=['Date'], usecols=cols)
 
 
 # Read in csv of state abbreviations and names. Use to join to df_vax to prep for merging with cases
@@ -24,9 +24,9 @@ election = pd.read_csv('/Users/mattroth/Desktop/HKS/MPP1/Fall 2021/API-201 Quant
 
 # Read in SVI data (from CDC county level). Will need to group by state and take weighted avg by population later
 svi_url = 'https://data.cdc.gov/api/views/q9mh-h2tw/rows.csv?accessType=DOWNLOAD'
-df_svi = pd.read_csv(svi_url)[['State Code', 'County Name', 'Social Vulnerability Index (SVI)']]
+df_svi = pd.read_csv(svi_url, usecols=['State Code', 'County Name', 'Social Vulnerability Index (SVI)'])
 
 
 # Read in county population data to weight SVI 
 county_pop = 'https://www2.census.gov/programs-surveys/popest/datasets/2010-2019/counties/totals/co-est2019-alldata.csv'
-df_county_pop = pd.read_csv(county_pop, encoding = "ISO-8859-1")[['STNAME','CTYNAME','POPESTIMATE2019']]
+df_county_pop = pd.read_csv(county_pop, encoding = "ISO-8859-1", usecols=['STNAME','CTYNAME','POPESTIMATE2019'])
