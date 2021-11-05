@@ -20,7 +20,6 @@ df_state_pop = pd.read_csv(state_pop).query('ages == "total" & year == 2012').dr
 
 # Read in election data 
 election = pd.read_csv('/Users/mattroth/Desktop/HKS/MPP1/Fall 2021/API-201 Quant/Final Project Charts/2020 results.csv')
-df_joined_cases = pd.merge(df_joined_cases, election, on='state').query('`WoW_%_cases` >= 0 & `WoW_%_vax` >= 0')
 
 
 # Read in SVI data (from CDC county level). Will need to group by state and take weighted avg by population later
