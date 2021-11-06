@@ -83,7 +83,7 @@ def line_for_each_state(data, x, y, hue_col, hue_levels, title, xlabel, ylabel, 
         
 
 # Create lmplot function to combine scatterplot & regress
-def lm(data, x, y, hue, hue_levels, columns, title, xlabel, ylabel, yformat=None, xformat=None, rows=None, col_order=None, size=2, alpha=0.1, robust=True):    
+def lm(data, x, y, hue, hue_levels, columns, title, xlabel, ylabel, yformat=None, xformat=None, rows=None, col_order=None, size=2, alpha=0.1, robust=False):    
     
     # Create plot
     g = sns.lmplot(
@@ -93,7 +93,7 @@ def lm(data, x, y, hue, hue_levels, columns, title, xlabel, ylabel, yformat=None
         hue=hue,
         scatter=True,    
         robust=robust,        
-        n_boot=100,
+#         n_boot=100,
         hue_order=list(hue_levels.keys()),
         palette=list(hue_levels.values()),
         col=columns,
