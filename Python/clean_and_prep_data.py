@@ -72,8 +72,8 @@ df_joined_cases = pd.merge(
 # PART 3 ELECTION & SVI DATA 
 #############################
 
-# Join election results data to df_joined_cases and filter out negative values
-df_joined_cases = pd.merge(df_joined_cases, election, on='state').query('`WoW_%_cases` >= 0 & `WoW_%_vax` >= 0')
+# Join election results data to df_joined_cases 
+df_joined_cases = pd.merge(df_joined_cases, election, on='state')
 
 # Get rid of everything after comma in CDC SVI data county name field to prep for joining to df_joined_cases
 df_svi['County Name'] = df_svi['County Name'].apply(lambda x: x.split(',')[0])
