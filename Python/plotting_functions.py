@@ -266,3 +266,45 @@ def agg_lm(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE, 
         plt.savefig(os.getcwd().split('API-201Z')[0] + 'API-201Z/Outputs/Plots/agg_lm_' +\
             gb + '.jpeg', 
             bbox_inches = "tight", dpi=150)
+
+
+
+
+
+
+###########################
+# AGGREGATE THEN JOINTPLOT
+##########################
+
+def agg_jp(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE):
+    
+    # If there's no groupby argument, only aggregate by date. Re-calculate WoW fields and cut to time window
+    if groupby == None:
+        agg = data.groupby('date')[['cases', 'unvaxxed']].sum().reset_index()
+        agg['WoW_%_cases'] = (agg['cases'] - agg['cases'].shift(7)) / agg['cases'].shift(7)
+        agg['WoW_%_vax'] = (agg['unvaxxed'].shift(7) - agg['unvaxxed'] ) / agg['unvaxxed'].shift(7)
+        agg = agg.query('@start <= date <= @end')                
+    else: # Otherwise group by groupby and re-calculate WoW fields and cut to time window         
+        agg = data.groupby(['date', groupby])[['cases', 'unvaxxed']].sum().reset_index()
+        agg['WoW_%_cases'] = (agg['cases'] - agg.groupby([groupby])['cases'].shift(7)) / agg.groupby([groupby])['cases'].shift(7)
+        agg['WoW_%_vax'] = (agg.groupby([groupby])['unvaxxed'].shift(7) - agg['unvaxxed'] ) / agg.groupby([groupby])['unvaxxed'].shift(7)
+        agg = agg.query('@start <= date <= @end')
+
+    p = sns.jointplot(
+            data=agg, 
+            x='WoW_%_cases', 
+            y='WoW_%_vax',                   
+            hue=groupby, 
+            palette=list(hue_levels.values()),        
+            )
+    
+    # Set chart parameters
+    ax = p.axes[0, 0]
+    plt.title('How do unvaccinated people respond to increasing caseloads?', fontsize=18, y=1.09)
+    plt.suptitle('      ' + suptitle + '. Dates: ' + start + ' to ' + end, fontsize=13, y=1.035)
+    plt.xlabel('\nCase growth (% growth in cumulative cases in 7-d window)', fontsize=13)
+    plt.ylabel('\n% of unvaxxed population jabbed in 7-d window\n', fontsize=13)
+    ax.grid(True, which='both', axis='both', alpha=0.25)   
+    ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))   
+    ax.xaxis.set_major_formatter(mtick.PercentFormatter(1.0))      
+    plt.ylim(0.75 * agg['WoW_%_vax'].min(), 1.1 * agg['WoW_%_vax'].max())
