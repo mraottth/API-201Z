@@ -251,5 +251,5 @@ def agg_lm(groupby, hue_levels, suptitle, start=start_date, end=end_date, data=d
     # Save to Output folder
     if SAVE_IMAGES == True:
         os.getcwd().split('API-201Z')[0] + 'API-201Z/Outputs/Plots/agg_lm_' +\        
-            + title[0].replace(' ', '_') + hue.replace(' ', '_') + '.jpeg', 
+            title[0].replace(' ', '_') + hue.replace(' ', '_') + '.jpeg', 
             bbox_inches = "tight", dpi=150)
