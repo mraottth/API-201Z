@@ -5,7 +5,7 @@ from plotting_functions import * # Import plotting functions from plotting_funct
 
 
 # Import df_joined_cases from Outputs folder
-df_joined_cases = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/cleaned_joined_states.csv')
+df_joined_cases = pd.read_csv(os.getcwd().split('API-201Z')[0] + 'API-201Z/Data Sources/cleaned_joined_states.csv').query('`WoW_%_vax` >= 0')
 
 # Plot correlations between cases and vax split by party controlling for vax level
 lm(
