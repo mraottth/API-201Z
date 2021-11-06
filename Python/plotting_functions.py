@@ -259,6 +259,10 @@ def agg_lm(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE, 
 
     # Save to Output folder
     if SAVE_IMAGES == True:
+        if groupby == None:
+            gb = 'no_grouping'
+        else:
+            gb = groupby
         plt.savefig(os.getcwd().split('API-201Z')[0] + 'API-201Z/Outputs/Plots/agg_lm_' +\
-            groupby + '.jpeg', 
+            gb + '.jpeg', 
             bbox_inches = "tight", dpi=150)
