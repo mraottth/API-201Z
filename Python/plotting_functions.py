@@ -291,8 +291,7 @@ def agg_jp(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE):
             x='WoW_%_cases', 
             y='WoW_%_vax',                   
             hue=groupby, 
-            palette=list(hue_levels.values()),      
-            kind='kde'  
+            palette=list(hue_levels.values())            
             )
     
     # Set chart parameters    
