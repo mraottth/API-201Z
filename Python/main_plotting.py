@@ -19,9 +19,9 @@ lm(
         + START_DATE + ' to ' + END_DATE + ' -- Each point is one state on one day'\
         , 1.2, 25),
     xlabel='Week-over-week growth in cases (% of cumulative)',
-    ylabel='% of remaining unvaxed pop. receiving jab in past week',
-    yformat='percent',
-    xformat='percent'
+    ylabel='% of remaining unvaxed pop. receiving jab in past week'
+    # yformat='percent',
+    # xformat='percent'
 )
 
 # Plot correlations between cases and vax split by party
