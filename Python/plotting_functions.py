@@ -32,7 +32,7 @@ def line_for_each_state(data, x, y, hue_col, hue_levels, title, xlabel, ylabel, 
     
     # Window highlighting timebox
     ax.vlines(
-        x=pd.to_datetime(start_date), 
+        x=pd.to_datetime(START_DATE), 
         ymin=min(data[y]), 
         ymax=1.1 * np.nanmax(data[data[y] != np.inf][y]), 
         color='gray', 
@@ -40,7 +40,7 @@ def line_for_each_state(data, x, y, hue_col, hue_levels, title, xlabel, ylabel, 
         linestyle='dashed'
         )
     ax.vlines(
-        x=pd.to_datetime(end_date), 
+        x=pd.to_datetime(END_DATE), 
         ymin=min(data[y]), 
         ymax=1.1 * np.nanmax(data[data[y] != np.inf][y]), 
         color='gray', 
@@ -48,8 +48,8 @@ def line_for_each_state(data, x, y, hue_col, hue_levels, title, xlabel, ylabel, 
         linestyle='dashed'
         )
     ax.axvspan(
-        pd.to_datetime(start_date), 
-        pd.to_datetime(end_date), 
+        pd.to_datetime(START_DATE), 
+        pd.to_datetime(END_DATE), 
         alpha=0.08, 
         color='lightgray', 
         zorder=0
@@ -249,7 +249,7 @@ def agg_lm(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE, 
 
     # Set chart parameters
     plt.title('How do unvaccinated people respond to increasing caseloads?', fontsize=18, y=1.09)
-    plt.suptitle('      ' + suptitle + '. Dates: ' + start_date + ' to ' + end_date, fontsize=13, y=1.035)
+    plt.suptitle('      ' + suptitle + '. Dates: ' + start + ' to ' + end, fontsize=13, y=1.035)
     plt.xlabel('\nCase growth (% growth in cumulative cases in 7-d window)', fontsize=13)
     plt.ylabel('\n% of unvaxxed population jabbed in 7-d window\n', fontsize=13)
     ax.grid(True, which='both', axis='both', alpha=0.25)   
