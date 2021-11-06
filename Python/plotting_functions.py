@@ -1,5 +1,5 @@
-# Import libraries from libraries.py
-from libraries import *
+from libraries import * # Import libraries from libraries.py
+from global_variables import * # Import global variables
 
 # Create function to plot line for each state 
 def line_for_each_state(data, x, y, hue_col, hue_levels, title, xlabel, ylabel, ci=None, yformat=None, xformat=None):
@@ -167,18 +167,18 @@ def jp(data, x, y, hue, hue_levels, title, xlabel, ylabel, yformat=None, xformat
         
         
 # Create aggregation and lm plot function        
-def agg_lm(groupby, hue_levels, suptitle, start=start_date, end=end_date, data=df_joined_cases, line_kws=None, legend=False):
+def agg_lm(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE, line_kws=None, legend=False):
     
     # If there's no groupby argument, only aggregate by date. Re-calculate WoW fields and cut to time window
     if groupby == None:
-        agg = df_joined_cases.groupby('date')[['cases', 'unvaxxed']].sum().reset_index()
+        agg = data.groupby('date')[['cases', 'unvaxxed']].sum().reset_index()
         agg['WoW_%_cases'] = (agg['cases'] - agg['cases'].shift(7)) / agg['cases'].shift(7)
         agg['WoW_%_vax'] = (agg['unvaxxed'].shift(7) - agg['unvaxxed'] ) / agg['unvaxxed'].shift(7)
         agg = agg.query('@start <= date <= @end')
         line_kws = {'label':"Linear Reg"}
         legend=True
     else: # Otherwise group by groupby and re-calculate WoW fields and cut to time window         
-        agg = df_joined_cases.groupby(['date', groupby])[['cases', 'unvaxxed']].sum().reset_index()
+        agg = data.groupby(['date', groupby])[['cases', 'unvaxxed']].sum().reset_index()
         agg['WoW_%_cases'] = (agg['cases'] - agg.groupby([groupby])['cases'].shift(7)) / agg.groupby([groupby])['cases'].shift(7)
         agg['WoW_%_vax'] = (agg.groupby([groupby])['unvaxxed'].shift(7) - agg['unvaxxed'] ) / agg.groupby([groupby])['unvaxxed'].shift(7)
         agg = agg.query('@start <= date <= @end')
@@ -250,6 +250,6 @@ def agg_lm(groupby, hue_levels, suptitle, start=start_date, end=end_date, data=d
 
     # Save to Output folder
     if SAVE_IMAGES == True:
-        os.getcwd().split('API-201Z')[0] + 'API-201Z/Outputs/Plots/agg_lm_' +\        
-            title[0].replace(' ', '_') + hue.replace(' ', '_') + '.jpeg', 
+        plt.savefig(os.getcwd().split('API-201Z')[0] + 'API-201Z/Outputs/Plots/agg_lm_' +\
+            hue.replace(' ', '_') + '.jpeg', 
             bbox_inches = "tight", dpi=150)
