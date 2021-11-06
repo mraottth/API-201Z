@@ -264,7 +264,7 @@ def agg_lm(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE, 
         else:
             gb = groupby
         plt.savefig(os.getcwd().split('API-201Z')[0] + 'API-201Z/Outputs/Plots/agg_lm_' +\
-            gb + '.jpeg', 
+            gb + start + '_to_' + end '.jpeg', 
             bbox_inches = "tight", dpi=150)
 
 
@@ -302,3 +302,13 @@ def agg_jp(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE):
         '\n% of unvaxxed population jabbed in 7-d window\n', fontsize=13
         )    
     plt.ylim(0.75 * agg['WoW_%_vax'].min(), 1.1 * agg['WoW_%_vax'].max())
+
+    # Save to Output folder
+    if SAVE_IMAGES == True:
+        if groupby == None:
+            gb = 'no_grouping'
+        else:
+            gb = groupby
+        plt.savefig(os.getcwd().split('API-201Z')[0] + 'API-201Z/Outputs/Plots/agg_jp_' +\
+            gb + start + '_to_' + end '.jpeg', 
+            bbox_inches = "tight", dpi=150)
