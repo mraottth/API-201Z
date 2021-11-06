@@ -91,3 +91,12 @@ agg_lm(
     start="2021-09-01",
     end="2021-10-31"
 )
+
+agg_jp(
+    data=df_joined_cases,
+    groupby='SVI Bucket',
+    hue_levels={'High to Very High':'red', 'Moderate':'gold', 'Very Low to Low':'green'},
+    suptitle='Each point is 1 day aggregated by state-level SVI',
+    start="2021-07-01",
+    end="2021-09-01"
+)

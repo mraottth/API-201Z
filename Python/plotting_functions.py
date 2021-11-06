@@ -294,13 +294,9 @@ def agg_jp(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE):
             palette=list(hue_levels.values()),        
             )
     
-    # Set chart parameters
-    ax = p.axes[0, 0]
+    # Set chart parameters    
     plt.title('How do unvaccinated people respond to increasing caseloads?', fontsize=18, y=1.09)
     plt.suptitle('      ' + suptitle + '. Dates: ' + start + ' to ' + end, fontsize=13, y=1.035)
     plt.xlabel('\nCase growth (% growth in cumulative cases in 7-d window)', fontsize=13)
-    plt.ylabel('\n% of unvaxxed population jabbed in 7-d window\n', fontsize=13)
-    ax.grid(True, which='both', axis='both', alpha=0.25)   
-    ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))   
-    ax.xaxis.set_major_formatter(mtick.PercentFormatter(1.0))      
+    plt.ylabel('\n% of unvaxxed population jabbed in 7-d window\n', fontsize=13)       
     plt.ylim(0.75 * agg['WoW_%_vax'].min(), 1.1 * agg['WoW_%_vax'].max())
