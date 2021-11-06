@@ -258,6 +258,7 @@ lm(
 
 # full date window no splits
 agg_lm(
+    data=df_joined_cases,
     groupby=None,
     hue_levels={"Total":'gray'},    
     suptitle='Each point is 1 day aggregated nationally'
@@ -265,6 +266,7 @@ agg_lm(
 
 # Full date window split on party
 agg_lm(
+    data=df_joined_cases,
     groupby='2020 Election Winner',
     hue_levels={'Democrat':'blue', 'Republican':'red'},
     suptitle='Each point is 1 day aggregated by red or blue state'
@@ -272,6 +274,7 @@ agg_lm(
 
 # Full date window split on svi
 agg_lm(
+    data=df_joined_cases,
     groupby='SVI Bucket',
     hue_levels={'High to Very High':'red', 'Moderate':'gold', 'Very Low to Low':'green'},
     suptitle='Each point is 1 day aggregated by state-level SVI'
@@ -279,6 +282,7 @@ agg_lm(
 
 # Cases rising date window no split
 agg_lm(
+    data=df_joined_cases,
     groupby=None,
     hue_levels={"Total":'gray'},    
     suptitle='Each point is 1 day aggregated nationally',
@@ -288,6 +292,7 @@ agg_lm(
 
 # Cases rising date window split on party
 agg_lm(
+    data=df_joined_cases,
     groupby='2020 Election Winner',
     hue_levels={'Democrat':'blue', 'Republican':'red'},
     suptitle='Each point is 1 day aggregated by red or blue state',
@@ -297,6 +302,7 @@ agg_lm(
 
 # Cases rising date window split on svi
 agg_lm(
+    data=df_joined_cases,
     groupby='SVI Bucket',
     hue_levels={'High to Very High':'red', 'Moderate':'gold', 'Very Low to Low':'green'},
     suptitle='Each point is 1 day aggregated by state-level SVI',
@@ -306,6 +312,7 @@ agg_lm(
 
 # Cases falling date window no split
 agg_lm(
+    data=df_joined_cases,
     groupby=None,
     hue_levels={"Total":'gray'},    
     suptitle='Each point is 1 day aggregated nationally',
@@ -315,6 +322,7 @@ agg_lm(
 
 # Cases falling date window split on party
 agg_lm(
+    data=df_joined_cases,
     groupby='2020 Election Winner',
     hue_levels={'Democrat':'blue', 'Republican':'red'},
     suptitle='Each point is 1 day aggregated by red or blue state',
@@ -324,6 +332,7 @@ agg_lm(
 
 # Cases falling date window split on svi
 agg_lm(
+    data=df_joined_cases,
     groupby='SVI Bucket',
     hue_levels={'High to Very High':'red', 'Moderate':'gold', 'Very Low to Low':'green'},
     suptitle='Each point is 1 day aggregated by state-level SVI',

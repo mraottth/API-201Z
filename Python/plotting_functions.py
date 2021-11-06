@@ -1,6 +1,11 @@
 from libraries import * # Import libraries from libraries.py
 from global_variables import * # Import global variables
 
+
+######################
+# LINE FOR EACH STATE
+#####################
+
 # Create function to plot line for each state 
 def line_for_each_state(data, x, y, hue_col, hue_levels, title, xlabel, ylabel, ci=None, yformat=None, xformat=None):
 
@@ -80,7 +85,9 @@ def line_for_each_state(data, x, y, hue_col, hue_levels, title, xlabel, ylabel, 
 
         
         
-        
+##################
+# LMPLOT FUNCTION
+#################    
 
 # Create lmplot function to combine scatterplot & regress
 def lm(data, x, y, hue, hue_levels, columns, title, xlabel, ylabel, yformat=None, xformat=None, rows=None, col_order=None, size=2, alpha=0.1, robust=False):    
@@ -93,7 +100,6 @@ def lm(data, x, y, hue, hue_levels, columns, title, xlabel, ylabel, yformat=None
         hue=hue,
         scatter=True,    
         robust=robust,        
-#         n_boot=100,
         hue_order=list(hue_levels.keys()),
         palette=list(hue_levels.values()),
         col=columns,
@@ -133,11 +139,13 @@ def lm(data, x, y, hue, hue_levels, columns, title, xlabel, ylabel, yformat=None
     # Save to Output folder
     if SAVE_IMAGES == True:
         plt.savefig(os.getcwd().split('API-201Z')[0] + 'API-201Z/Outputs/Plots/lm_' +\
-            + title[0].replace(' ', '_') + hue.replace(' ', '_') + '.jpeg', 
+            title[0].replace(' ', '_') + hue.replace(' ', '_') + '.jpeg', 
             bbox_inches = "tight", dpi=150)
 
 
-        
+######################
+# JOINTPLOT FUNCTION
+#####################   
         
 # Define jointplot function to do scatterplot & distributions with regression line
 def jp(data, x, y, hue, hue_levels, title, xlabel, ylabel, yformat=None, xformat=None, s=7, alpha=0.25):    
@@ -158,13 +166,14 @@ def jp(data, x, y, hue, hue_levels, title, xlabel, ylabel, yformat=None, xformat
     # Save to Output folder
     if SAVE_IMAGES == True:
         plt.savefig(os.getcwd().split('API-201Z')[0] + 'API-201Z/Outputs/Plots/jp_' +\
-            + title[0].replace(' ', '_') + hue.replace(' ', '_') + '.jpeg', 
+            title[0].replace(' ', '_') + hue.replace(' ', '_') + '.jpeg', 
             bbox_inches = "tight", dpi=150)
         
 
         
-        
-        
+######################
+# AGGREGATE THEN LM
+#####################        
         
 # Create aggregation and lm plot function        
 def agg_lm(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE, line_kws=None, legend=False):
