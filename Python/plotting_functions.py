@@ -268,10 +268,6 @@ def agg_lm(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE, 
             bbox_inches = "tight", dpi=150)
 
 
-
-
-
-
 ###########################
 # AGGREGATE THEN JOINTPLOT
 ##########################
