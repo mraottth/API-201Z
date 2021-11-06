@@ -161,3 +161,83 @@ def jp(data, x, y, hue, hue_levels, title, xlabel, ylabel, yformat=None, xformat
             + title[0].replace(' ', '_') + hue.replace(' ', '_') + '.jpeg', 
             bbox_inches = "tight", dpi=150)
         
+
+        
+        
+        
+        
+# Create aggregation and lm plot function        
+def agg_lm(groupby, hue_levels, suptitle, start=start_date, end=end_date, data=df_joined_cases, line_kws=None, legend=False):
+    if groupby == None:
+        agg = df_joined_cases.groupby('date')[['cases', 'unvaxxed']].sum().reset_index()
+        agg['WoW_%_cases'] = (agg['cases'] - agg['cases'].shift(7)) / agg['cases'].shift(7)
+        agg['WoW_%_vax'] = (agg['unvaxxed'].shift(7) - agg['unvaxxed'] ) / agg['unvaxxed'].shift(7)
+        agg = agg.query('@start <= date <= @end')
+        line_kws = {'label':"Linear Reg"}
+        legend=True
+    else:        
+        agg = df_joined_cases.groupby(['date', groupby])[['cases', 'unvaxxed']].sum().reset_index()
+        agg['WoW_%_cases'] = (agg['cases'] - agg.groupby([groupby])['cases'].shift(7)) / agg.groupby([groupby])['cases'].shift(7)
+        agg['WoW_%_vax'] = (agg.groupby([groupby])['unvaxxed'].shift(7) - agg['unvaxxed'] ) / agg.groupby([groupby])['unvaxxed'].shift(7)
+        agg = agg.query('@start <= date <= @end')
+    
+    stats_results = []
+    if groupby != None:
+        for i in range(len(hue_levels.keys())):
+            level = list(hue_levels.keys())[i]                
+            slope, intercept, r_value, p_value, std_err = stats.linregress(
+                agg[(agg[groupby] == level) & (agg['date'] >= start) & (agg['date'] < end)]['WoW_%_cases'],
+                agg[(agg[groupby] == level) & (agg['date'] >= start) & (agg['date'] < end)]['WoW_%_vax']
+                )
+            stats_results.append((slope, intercept, r_value, p_value, std_err))
+    else:
+        slope, intercept, r_value, p_value, std_err = stats.linregress(
+            agg[(agg['date'] >= start) & (agg['date'] < end)]['WoW_%_cases'],
+            agg[(agg['date'] >= start) & (agg['date'] < end)]['WoW_%_vax']
+            )        
+    
+    p = sns.lmplot(
+        data=agg, 
+        x='WoW_%_cases', 
+        y='WoW_%_vax', 
+        robust=False,         
+        legend=legend,
+        line_kws=line_kws,
+        height=5,
+        aspect=1.5/1,
+        hue=groupby, 
+        palette=list(hue_levels.values()),
+        scatter_kws={"alpha": 0.55}    
+        )
+
+    if groupby != None: 
+        ax = p.axes[0, 0]
+        ax.legend(bbox_to_anchor=(1,0.75), loc='upper left', frameon=False)
+        leg = ax.get_legend()
+        L_labels = leg.get_texts()
+        for j in range(len(stats_results)):
+            level = list(hue_levels.keys())[j]
+            mxb = r'y = {0:.3f}x+{1:.3f}'.format(stats_results[j][0], stats_results[j][1])
+            r = 'r: ' + '{:0.2}'.format(stats_results[j][2]) + '  -  R^2: ' + '{:0.2}'.format(stats_results[j][2]**2)
+            p = 'p: ' + '{:0.3e}'.format(stats_results[j][3])
+            L_labels[j].set_text(level + '\n' + mxb + '\n' + r + '\n' + p + '\n')
+    else:    
+        ax = p.axes[0, 0]
+        ax.legend(loc=2)
+        leg = ax.get_legend()
+        L_labels = leg.get_texts()            
+        m = r'y = {0:.3f}x+{1:.3f}'.format(slope,intercept, p_value)
+        rval = 'r: ' + '{:0.2}'.format(r_value) + '  -  R^2: ' + '{:0.2}'.format(r_value**2)
+        pval = 'p: ' + '{:0.3e}'.format(p_value)
+        L_labels[0].set_text( m + '\n' + rval + '\n' + pval)
+
+    plt.title('How do unvaccinated people respond to increasing caseloads?', fontsize=18, y=1.09)
+    plt.suptitle('      ' + suptitle + '. Dates: ' + start_date + ' to ' + end_date, fontsize=13, y=1.035)
+    plt.xlabel('\nCase growth (% growth in cumulative cases in 7-d window)', fontsize=13)
+    plt.ylabel('\n% of unvaxxed population jabbed in 7-d window\n', fontsize=13)
+    ax.grid(True, which='both', axis='both', alpha=0.25)   
+    ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))   
+    ax.xaxis.set_major_formatter(mtick.PercentFormatter(1.0))      
+    plt.ylim(0.75 * agg['WoW_%_vax'].min(), 1.1 * agg['WoW_%_vax'].max())
+    # plt.savefig('/Users/mattroth/Desktop/HKS/MPP1/Fall 2021/API-201 Quant/Final Project Charts/unvax change/agg_svi.jpeg', 
+    #             bbox_inches = "tight", dpi=150)
