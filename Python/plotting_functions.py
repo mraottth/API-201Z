@@ -353,3 +353,35 @@ def agg_jp(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE):
         plt.savefig(os.getcwd().split('API-201Z')[0] + 'API-201Z/Outputs/Plots/agg_jp_' +\
             gb + start + '_to_' + end + '.jpeg', 
             bbox_inches = "tight", dpi=150)
+
+
+def case_and_vax_plot(data, hue_col, hue_levels, title, start, end):
+
+    fig, ax = plt.subplots(nrows=2, ncols=1, figsize=(12,8))
+    sns.lineplot(
+        data=data.query(' @start <= date <= @end'),
+        x='date',
+        y='WoW_%_cases',
+        hue=hue_col,
+        palette=list(hue_levels.values()),
+        alpha=0.7,
+        ax=ax[0]
+    )
+    sns.lineplot(
+        data=data.query(' @start <= date <= @end'),
+        x='date',
+        y='WoW_%_vax',
+        hue=hue_col,
+        palette=list(hue_levels.values()),
+        alpha=0.7,
+        ax=ax[1]
+    )
+    plt.suptitle(title, y=0.95, fontsize=20)
+    ax[0].set_xlabel(None)
+    ax[1].set_xlabel(None)
+    ax[0].set_ylabel('Case growth')
+    ax[1].set_ylabel('Vaxination growth')
+    ax[0].yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+    ax[1].yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+    ax[0].grid(True, which='both', axis='both', alpha=0.2)   
+    ax[1].grid(True, which='both', axis='both', alpha=0.2)  
