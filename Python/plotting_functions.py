@@ -417,7 +417,7 @@ def case_and_vax_plot2(data, hue_col, hue_levels, title, start, end):
         ax=sub2     
     )
 
-    sub3.apply(agg_lm(
+    sub3.plot(agg_lm(
         data=data,
         groupby=hue_col,
         hue_levels=hue_levels,
