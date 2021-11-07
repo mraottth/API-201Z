@@ -389,11 +389,11 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end):
 
 
 def case_and_vax_plot2(data, hue_col, hue_levels, title, start, end):
-    fig, ax = plt.subplots(figsize=(12,8))
+    fig = plt.subplots(figsize=(12,8))
+    
     sub1 = fig.add_subplot(2,2,1) # two rows, two columns, fist cell
     sub2 = fig.add_subplot(2,2,3) # two rows, two columns, second cell
     sub3 = fig.add_subplot(2,2,(2,4)) # two rows, two colums, combined third and fourth cell
-    
     
     sub1 = sns.lineplot(
         data=data.query(' @start <= date <= @end'),
@@ -412,12 +412,12 @@ def case_and_vax_plot2(data, hue_col, hue_levels, title, start, end):
         alpha=0.7        
     )
 
-    sub3 = case_and_vax_plot(
-        data=data.query(' @start <= date <= @end'), 
-        hue_col=hue_col,
+    sub3 = agg_lm(
+        data=data,
+        groupby=hue_col,
         hue_levels=hue_levels,
-        title='Correlation', 
-        start=start, 
+        suptitle='Each point is 1 day aggregated by state-level SVI',
+        start=start,
         end=end
     )[0]
     
