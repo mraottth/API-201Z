@@ -389,7 +389,7 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end):
 
 
 def case_and_vax_plot2(data, hue_col, hue_levels, title, start, end):
-    fig = plt.subplots(figsize=(12,8))
+    fig, ax = plt.subplots(figsize=(12,8))
     
     sub1 = fig.add_subplot(2,2,1) # two rows, two columns, fist cell
     sub2 = fig.add_subplot(2,2,3) # two rows, two columns, second cell
