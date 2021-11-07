@@ -170,6 +170,46 @@ def jp(data, x, y, hue, hue_levels, title, xlabel, ylabel, yformat=None, xformat
             bbox_inches = "tight", dpi=150)
         
 
+##################################
+# AGGREGATE THEN REGRESSION TABLE
+#################################
+
+from stargazer.stargazer import Stargazer
+from IPython.core.display import HTML
+import statsmodels.api as sm
+
+def regression_table(data, groupby, hue_levels, start, end):
+    if groupby == None:
+        agg = data.groupby('date')[['cases', 'unvaxxed']].sum().reset_index()
+        agg['WoW_%_cases'] = (agg['cases'] - agg['cases'].shift(7)) / agg['cases'].shift(7)
+        agg['WoW_%_vax'] = (agg['unvaxxed'].shift(7) - agg['unvaxxed'] ) / agg['unvaxxed'].shift(7)
+        agg = agg.query('@start <= date <= @end')
+    else: # Otherwise group by groupby and re-calculate WoW fields and cut to time window         
+        agg = data.groupby(['date', groupby])[['cases', 'unvaxxed']].sum().reset_index()
+        agg['WoW_%_cases'] = (agg['cases'] - agg.groupby([groupby])['cases'].shift(7)) / agg.groupby([groupby])['cases'].shift(7)
+        agg['WoW_%_vax'] = (agg.groupby([groupby])['unvaxxed'].shift(7) - agg['unvaxxed'] ) / agg.groupby([groupby])['unvaxxed'].shift(7)
+        agg = agg.query('@start <= date <= @end')
+
+    stats_results = []
+    if groupby != None:
+        for i in range(len(hue_levels.keys())):
+            level = list(hue_levels.keys())[i]  
+            y = agg[(agg[groupby] == level) & (agg['date'] >= start) & (agg['date'] < end)].rename(columns={'WoW_%_vax':'Vax Response'})['Vax Response']
+            x = sm.add_constant(agg[(agg[groupby] == level) & (agg['date'] >= start) & (agg['date'] < end)].rename(columns={'WoW_%_cases':'Case Growth'})['Case Growth'])      
+            stats_results.append(sm.OLS(endog=y, exog=x).fit())
+    else: # If groupby argument is empty just run the regression once
+        y = agg[(agg['date'] >= start) & (agg['date'] < end)].rename(columns={'WoW_%_vax':'Vax Response'})['Vax Response']
+        x = sm.add_constant(agg[(agg['date'] >= start) & (agg['date'] < end)].rename(columns={'WoW_%_cases':'Case Growth'})['Case Growth'])      
+        stats_results.append(sm.OLS(endog=y, exog=x).fit())
+
+    stargazer = Stargazer(stats_results)
+
+    if groupby != None:
+        stargazer.custom_columns(list(hue_levels.keys()), [1 for i in range(len(list(hue_levels.keys())))])
+    stargazer.show_model_numbers(False)
+
+    return HTML(stargazer.render_html())
+
         
 ######################
 # AGGREGATE THEN LM
@@ -266,6 +306,8 @@ def agg_lm(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE, 
         plt.savefig(os.getcwd().split('API-201Z')[0] + 'API-201Z/Outputs/Plots/agg_lm_' +\
             gb + start + '_to_' + end + '.jpeg', 
             bbox_inches = "tight", dpi=150)
+    
+    regression_table(data, groupby, hue_levels, start, end)
 
 
 ###########################
@@ -312,4 +354,3 @@ def agg_jp(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE):
         plt.savefig(os.getcwd().split('API-201Z')[0] + 'API-201Z/Outputs/Plots/agg_jp_' +\
             gb + start + '_to_' + end + '.jpeg', 
             bbox_inches = "tight", dpi=150)
-            
