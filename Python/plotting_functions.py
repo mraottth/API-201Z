@@ -249,7 +249,7 @@ def agg_lm(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE, 
             )        
     
     # Set up plot
-    p = sns.lmplot(
+    g = sns.lmplot(
         data=agg, 
         x='WoW_%_cases', 
         y='WoW_%_vax', 
@@ -265,7 +265,7 @@ def agg_lm(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE, 
 
     # Build legend and populate with results from linear reg
     if groupby != None: 
-        ax = p.axes[0, 0]
+        ax = g.axes[0, 0]
         ax.legend(bbox_to_anchor=(1,0.75), loc='upper left', frameon=False)
         leg = ax.get_legend()
         L_labels = leg.get_texts()
@@ -278,7 +278,7 @@ def agg_lm(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE, 
             p = 'p: ' + '{:0.3e}'.format(stats_results[j][3])
             L_labels[j].set_text(level + '\n' + mxb + '\n' + r + '\n' + p + '\n')
     else: # If there's no groupby argument no need to loop through stats_results   
-        ax = p.axes[0, 0]
+        ax = g.axes[0, 0]
         ax.legend(loc=2)
         leg = ax.get_legend()
         L_labels = leg.get_texts()            
@@ -307,7 +307,7 @@ def agg_lm(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE, 
             gb + start + '_to_' + end + '.jpeg', 
             bbox_inches = "tight", dpi=150)    
 
-    return p, regression_table(data, groupby, hue_levels, start, end)
+    return g, regression_table(data, groupby, hue_levels, start, end)
 
 ###########################
 # AGGREGATE THEN JOINTPLOT
