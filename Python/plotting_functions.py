@@ -385,3 +385,39 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end):
     ax[1].yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
     ax[0].grid(True, which='both', axis='both', alpha=0.2)   
     ax[1].grid(True, which='both', axis='both', alpha=0.2)  
+
+
+
+def case_and_vax_plot2(data, hue_col, hue_levels, title, start, end):
+
+    sub1 = fig.add_subplot(2,2,1) # two rows, two columns, fist cell
+    sub2 = fig.add_subplot(2,2,3) # two rows, two columns, second cell
+    sub3 = fig.add_subplot(2,2,(2,4)) # two rows, two colums, combined third and fourth cell
+    
+    
+    sub1 = sns.lineplot(
+        data=data.query(' @start <= date <= @end'),
+        x='date',
+        y='WoW_%_cases',
+        hue=hue_col,
+        palette=list(hue_levels.values()),
+        alpha=0.7
+    )
+    sub2 = sns.lineplot(
+        data=data.query(' @start <= date <= @end'),
+        x='date',
+        y='WoW_%_vax',
+        hue=hue_col,
+        palette=list(hue_levels.values()),
+        alpha=0.7        
+    )
+
+    sub3 = case_and_vax_plot(
+        data=data.query(' @start <= date <= @end'), 
+        hue_col=hue_col,
+        hue_levels=hue_levels,
+        title='Correlation', 
+        start=start, 
+        end=end
+    )[0]
+    
