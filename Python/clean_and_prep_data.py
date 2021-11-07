@@ -153,8 +153,8 @@ df_joined_cases = df_joined_cases.drop(['Date','Location','state/region'], axis=
 # Rename R and D to republican and democrat for clarity
 df_joined_cases['2020 Election Winner'] = ['Democrat' if x == 'D' else 'Republican' if x == 'R' else '' for x in df_joined_cases['2020 Election Winner']]
 
-# Cut everything before start and after end using global variables
-df_joined_cases = df_joined_cases[(df_joined_cases['date'] >= START_DATE) & (df_joined_cases['date'] <= END_DATE)]
+# # Cut everything before start and after end using global variables
+# df_joined_cases = df_joined_cases[(df_joined_cases['date'] >= START_DATE) & (df_joined_cases['date'] <= END_DATE)]
 
 # Remove inf values
 df_joined_cases.replace([np.inf, -np.inf], np.nan, inplace=True)
