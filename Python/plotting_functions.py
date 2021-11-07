@@ -395,24 +395,26 @@ def case_and_vax_plot2(data, hue_col, hue_levels, title, start, end):
     sub2 = fig.add_subplot(2,2,3) # two rows, two columns, second cell
     sub3 = fig.add_subplot(2,2,(2,4)) # two rows, two colums, combined third and fourth cell
     
-    sub1.sns.lineplot(
+    sns.lineplot(
         data=data.query(' @start <= date <= @end'),
         x='date',
         y='WoW_%_cases',
         hue=hue_col,
         palette=list(hue_levels.values()),
-        alpha=0.7
+        alpha=0.7,
+        ax=sub1
     )
-    sub2.sns.lineplot(
+    sns.lineplot(
         data=data.query(' @start <= date <= @end'),
         x='date',
         y='WoW_%_vax',
         hue=hue_col,
         palette=list(hue_levels.values()),
-        alpha=0.7        
+        alpha=0.7,
+        ax=sub2     
     )
 
-    sub3.agg_lm(
+    agg_lm(
         data=data,
         groupby=hue_col,
         hue_levels=hue_levels,
