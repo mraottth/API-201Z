@@ -307,7 +307,8 @@ def agg_lm(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE, 
             gb + start + '_to_' + end + '.jpeg', 
             bbox_inches = "tight", dpi=150)
     
-    return regression_table(data, groupby, hue_levels, start, end), p
+    return p
+    return regression_table(data, groupby, hue_levels, start, end)
 
 
 ###########################
