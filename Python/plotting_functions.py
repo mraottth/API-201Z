@@ -417,12 +417,12 @@ def case_and_vax_plot2(data, hue_col, hue_levels, title, start, end):
         ax=sub2     
     )
 
-    sub3.plot(agg_lm(
+    sub3 = agg_lm(
         data=data,
         groupby=hue_col,
         hue_levels=hue_levels,
         suptitle='Each point is 1 day aggregated by state-level SVI',
         start=start,
         end=end
-    )[0])
+    )[0]
     
