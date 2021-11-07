@@ -208,7 +208,7 @@ def regression_table(data, groupby, hue_levels, start, end):
         stargazer.custom_columns(list(hue_levels.keys()), [1 for i in range(len(list(hue_levels.keys())))])
     stargazer.show_model_numbers(False)
 
-    HTML(stargazer.render_html())
+    return HTML(stargazer.render_html())
 
         
 ######################
@@ -307,6 +307,7 @@ def agg_lm(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE, 
             gb + start + '_to_' + end + '.jpeg', 
             bbox_inches = "tight", dpi=150)    
 
+    return p, regression_table(data, groupby, hue_levels, start, end)
 
 ###########################
 # AGGREGATE THEN JOINTPLOT
