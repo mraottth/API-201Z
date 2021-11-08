@@ -393,7 +393,6 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end, axs):
 
 
 
-
 def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=END_DATE):
     
     fig, ax = plt.subplots(figsize=(16,8))
@@ -405,8 +404,9 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
     ax.spines['top'].set_visible(False)
     ax.spines['bottom'].set_visible(False)
     ax.spines['left'].set_visible(False)
+    ax.spines['right'].set_visible(False)
 
-    plt.subplots_adjust(wspace=0.2, hspace=0.2)
+    plt.subplots_adjust(wspace=0.22, hspace=0.4)
 
     # Create aggregation and lm plot function        
     def agg_reg(data, groupby, hue_levels, ax, start=START_DATE, end=END_DATE, line_kws=None, legend=False):    
@@ -478,9 +478,9 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
         ax.grid(True, which='both', axis='both', alpha=0.25)   
         ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))   
         ax.xaxis.set_major_formatter(mtick.PercentFormatter(1.0))     
-        plt.xlabel('\nCase growth (% growth in cumulative cases in 7-d window)', fontsize=12)
-        plt.ylabel('\n% of unvaxxed population jabbed in 7-d window', fontsize=12)
-        plt.title('Correlation Between Cases & Vaccinations', fontsize=16, y=1.04)
+        plt.xlabel('\n\nCase growth (% growth in cumulative cases in 7-d window)', fontsize=12)
+        plt.ylabel('\n\n% of unvaxxed population jabbed in 7-d window', fontsize=12)
+        plt.title('Correlation Between Cases & Vaccinations\n' + start + ' to ' + end, fontsize=16, y=1.035)
         
         return g, legend_labels
 
@@ -488,7 +488,7 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
         data=data, 
         hue_col=groupby, 
         hue_levels=hue_levels, 
-        title='Case and Vaccination Growth: ' + start + ' to ' + end, 
+        title='Case and Vaccination Growth\n' + start + ' to ' + end,
         start=start, 
         end=end,
         axs=(sub1, sub2)
@@ -498,12 +498,13 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
     ar
     sub3.legend(
         ar[1],
-        bbox_to_anchor=(1,0.75), 
-        loc='upper left', 
-        frameon=False
+        loc=4, 
+        # loc='upper left', 
+        frameon=True
     )
         
     plt.setp(ax.get_xticklabels(), fontsize=0)
     plt.setp(ax.get_yticklabels(), fontsize=0)
     plt.setp(ax.xaxis.get_ticklines(), 'markersize', 0)
-    plt.tight_layout()
+    plt.setp(ax.yaxis.get_ticklines(), 'markersize', 0)
+    # plt.tight_layout()
