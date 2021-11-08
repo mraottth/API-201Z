@@ -387,7 +387,9 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end, axs):
     axs[1].yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
     axs[0].grid(True, which='both', axis='both', alpha=0.25)   
     axs[1].grid(True, which='both', axis='both', alpha=0.25)  
-
+    import matplotlib.ticker as ticker
+    axs[0].xaxis.set_major_locator(ticker.MultipleLocator(7))
+    axs[1].xaxis.set_major_locator(ticker.MultipleLocator(7))
 
 
 
@@ -484,9 +486,7 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
     bbox_to_anchor=(1,0.75), loc='upper left', frameon=False
     
     )
-    
-    import matplotlib.ticker as ticker
-    ax.xaxis.set_major_locator(ticker.MultipleLocator(7))
+        
     plt.setp(ax.get_xticklabels(), fontsize=0)
     plt.setp(ax.get_yticklabels(), fontsize=0)
     plt.setp(ax.xaxis.get_ticklines(), 'markersize', 0)
