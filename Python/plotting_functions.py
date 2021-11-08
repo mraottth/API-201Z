@@ -390,7 +390,7 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end, axs):
 
 
 
-    def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=END_DATE):
+def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=END_DATE):
     
     fig, ax = plt.subplots(figsize=(16,8))
 
