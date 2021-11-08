@@ -393,6 +393,8 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end, axs):
 
 
 
+
+
 def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=END_DATE):
     
     fig, ax = plt.subplots(figsize=(16,8))
@@ -438,7 +440,8 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
             slope, intercept, r_value, p_value, std_err = stats.linregress(
                 agg[(agg['date'] >= start) & (agg['date'] < end)]['WoW_%_cases'],
                 agg[(agg['date'] >= start) & (agg['date'] < end)]['WoW_%_vax']
-                )        
+                )       
+            stats_results.append((slope, intercept, r_value, p_value, std_err))
 
         if groupby != None:
             for level in agg[groupby].unique():
@@ -457,14 +460,14 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
             g = sns.regplot(
                 data=agg, 
                 x='WoW_%_cases', 
-                y='WoW_%_vax', 
-                legend=legend,
+                y='WoW_%_vax',                 
                 robust=False,                    
                 color=list(hue_levels.values())[0],
                 scatter_kws={"alpha": 0.55},
                 line_kws=line_kws,
                 ax=ax 
                 )
+        
         legend_labels = []
         for j in range(len(stats_results)):
             level = list(hue_levels.keys())[j]
@@ -494,14 +497,14 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
     
     ar = agg_reg(data, groupby, hue_levels, ax=sub3)
     ar
-    sub3.legend(ar[1],
-    
-    bbox_to_anchor=(1,0.75), loc='upper left', frameon=False
-    
+    sub3.legend(
+        ar[1],
+        bbox_to_anchor=(1,0.75), 
+        loc='upper left', 
+        frameon=False
     )
         
     plt.setp(ax.get_xticklabels(), fontsize=0)
     plt.setp(ax.get_yticklabels(), fontsize=0)
     plt.setp(ax.xaxis.get_ticklines(), 'markersize', 0)
     plt.tight_layout()
-    
