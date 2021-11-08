@@ -376,9 +376,10 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end, axs):
         alpha=0.7,
         ax=axs[1]
     )
-    axs[0].set_title(title, fontsize=18, y=1.04)
+    axs[0].set_title(title, fontsize=16, y=1.07)
     axs[0].set_xlabel(None)
     axs[1].set_xlabel(None)
+    plt.xticks(rotation=45)
     axs[0].set_ylabel('Case growth', fontsize=12)
     axs[1].set_ylabel('Vaxination growth', fontsize=12)
     axs[0].yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
@@ -388,41 +389,101 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end, axs):
 
 
 
-def case_and_vax_plot2(data, hue_col, hue_levels, title, start, end):
+
+    def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=END_DATE):
     
-    fig, ax = plt.subplots(figsize=(12,8))
-    
-    plt.subplots_adjust(wspace= 0.25, hspace= 0.25)
-    
+    fig, ax = plt.subplots(figsize=(16,8))
+
     sub1 = fig.add_subplot(2,2,1) # two rows, two columns, fist cell
     sub2 = fig.add_subplot(2,2,3) # two rows, two columns, second cell
     sub3 = fig.add_subplot(2,2,(2,4)) # two rows, two colums, combined third and fourth cell
-    
-    sns.lineplot(
-        data=data.query(' @start <= date <= @end'),
-        x='date',
-        y='WoW_%_cases',
-        hue=hue_col,
-        palette=list(hue_levels.values()),
-        alpha=0.7,
-        ax=sub1
-    )
-    sns.lineplot(
-        data=data.query(' @start <= date <= @end'),
-        x='date',
-        y='WoW_%_vax',
-        hue=hue_col,
-        palette=list(hue_levels.values()),
-        alpha=0.7,
-        ax=sub2     
-    )
 
-    sub3 = agg_lm(
-        data=data,
-        groupby=hue_col,
-        hue_levels=hue_levels,
-        suptitle='Each point is 1 day aggregated by state-level SVI',
-        start=start,
-        end=end
-    )[0]
+    ax.spines['top'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+
+    plt.subplots_adjust(wspace=0.2, hspace=0.2)
+
+    # Create aggregation and lm plot function        
+    def agg_reg(data, groupby, hue_levels, ax, start=START_DATE, end=END_DATE, line_kws=None, legend=False):    
+        
+        # If there's no groupby argument, only aggregate by date. Re-calculate WoW fields and cut to time window
+        if groupby == None:
+            agg = data.groupby('date')[['cases', 'unvaxxed']].sum().reset_index()
+            agg['WoW_%_cases'] = (agg['cases'] - agg['cases'].shift(7)) / agg['cases'].shift(7)
+            agg['WoW_%_vax'] = (agg['unvaxxed'].shift(7) - agg['unvaxxed'] ) / agg['unvaxxed'].shift(7)
+            agg = agg.query('@start <= date <= @end')
+            line_kws = {'label':"Linear Reg"}
+            legend=True
+        else: # Otherwise group by groupby and re-calculate WoW fields and cut to time window         
+            agg = data.groupby(['date', groupby])[['cases', 'unvaxxed']].sum().reset_index()
+            agg['WoW_%_cases'] = (agg['cases'] - agg.groupby([groupby])['cases'].shift(7)) / agg.groupby([groupby])['cases'].shift(7)
+            agg['WoW_%_vax'] = (agg.groupby([groupby])['unvaxxed'].shift(7) - agg['unvaxxed'] ) / agg.groupby([groupby])['unvaxxed'].shift(7)
+            agg = agg.query('@start <= date <= @end')
+        
+        # Iterate through levels of hue_levels, run linear regression, store results in stats_results
+        stats_results = []
+        if groupby != None:
+            for i in range(len(hue_levels.keys())):
+                level = list(hue_levels.keys())[i]                
+                slope, intercept, r_value, p_value, std_err = stats.linregress(
+                    agg[(agg[groupby] == level) & (agg['date'] >= start) & (agg['date'] < end)]['WoW_%_cases'],
+                    agg[(agg[groupby] == level) & (agg['date'] >= start) & (agg['date'] < end)]['WoW_%_vax']
+                    )
+                stats_results.append((slope, intercept, r_value, p_value, std_err))
+        else: # If groupby argument is empty just run the regression once
+            slope, intercept, r_value, p_value, std_err = stats.linregress(
+                agg[(agg['date'] >= start) & (agg['date'] < end)]['WoW_%_cases'],
+                agg[(agg['date'] >= start) & (agg['date'] < end)]['WoW_%_vax']
+                )        
+
+        for level in agg[groupby].unique():
+            # Set up plot
+            g = sns.regplot(
+                data=agg[agg[groupby] == level], 
+                x='WoW_%_cases', 
+                y='WoW_%_vax', 
+                robust=False,                    
+                color=hue_levels[level],
+                scatter_kws={"alpha": 0.55},
+                ax=ax 
+                )
+        
+        legend_labels = []
+        for j in range(len(stats_results)):
+            level = list(hue_levels.keys())[j]
+            mxb = r'y = {0:.3f}x+{1:.3f}'.format(stats_results[j][0], stats_results[j][1])
+            r = 'r: ' + '{:0.2}'.format(stats_results[j][2]) + '  -  R^2: ' + '{:0.2}'.format(stats_results[j][2]**2)
+            p = 'p: ' + '{:0.3e}'.format(stats_results[j][3])
+            legend_labels.append(level + '\n' + mxb + '\n' + r + '\n' + p + '\n')
+        
+        ax.grid(True, which='both', axis='both', alpha=0.25)   
+        ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))   
+        ax.xaxis.set_major_formatter(mtick.PercentFormatter(1.0))     
+        plt.xlabel('\nCase growth (% growth in cumulative cases in 7-d window)', fontsize=12)
+        plt.ylabel('\n% of unvaxxed population jabbed in 7-d window', fontsize=12)
+        plt.title('Correlation Between Cases & Vaccinations', fontsize=16, y=1.04)
+        
+        return g, legend_labels
+
+    case_and_vax_plot(
+        data=data, 
+        hue_col=groupby, 
+        hue_levels=hue_levels, 
+        title='Case and Vaccination Growth: ' + start + ' to ' + end, 
+        start=start, 
+        end=end,
+        axs=(sub1, sub2)
+        )
+    
+    ar = agg_reg(data, groupby, hue_levels, ax=sub3)
+    ar
+    sub3.legend(ar[1],
+    
+    bbox_to_anchor=(1,0.75), loc='upper left', frameon=False
+    
+    )
+    
+    plt.setp(ax.get_xticklabels(), fontsize=0)
+    plt.setp(ax.get_yticklabels(), fontsize=0)
     
