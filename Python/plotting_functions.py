@@ -440,10 +440,22 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
                 agg[(agg['date'] >= start) & (agg['date'] < end)]['WoW_%_vax']
                 )        
 
-        for level in agg[groupby].unique():
+        if groupby != None:
+            for level in agg[groupby].unique():
+                # Set up plot
+                g = sns.regplot(
+                    data=agg[agg[groupby] == level], 
+                    x='WoW_%_cases', 
+                    y='WoW_%_vax', 
+                    robust=False,                    
+                    color=hue_levels[level],
+                    scatter_kws={"alpha": 0.55},
+                    ax=ax 
+                    )
+        else:
             # Set up plot
             g = sns.regplot(
-                data=agg[agg[groupby] == level], 
+                data=agg, 
                 x='WoW_%_cases', 
                 y='WoW_%_vax', 
                 robust=False,                    
@@ -451,7 +463,6 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
                 scatter_kws={"alpha": 0.55},
                 ax=ax 
                 )
-        
         legend_labels = []
         for j in range(len(stats_results)):
             level = list(hue_levels.keys())[j]
