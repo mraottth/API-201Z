@@ -459,7 +459,7 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
                 x='WoW_%_cases', 
                 y='WoW_%_vax', 
                 robust=False,                    
-                color=hue_levels.values()[0],
+                color=list(hue_levels.values())[0],
                 scatter_kws={"alpha": 0.55},
                 ax=ax 
                 )
