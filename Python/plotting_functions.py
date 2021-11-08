@@ -478,8 +478,8 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
         ax.grid(True, which='both', axis='both', alpha=0.25)   
         ax.yaxis.set_major_formatter(mtick.PercentFormatter(1.0))   
         ax.xaxis.set_major_formatter(mtick.PercentFormatter(1.0))     
-        plt.xlabel('\n\nCase growth (% growth in cumulative cases in 7-d window)', fontsize=12)
-        plt.ylabel('\n\n% of unvaxxed population jabbed in 7-d window', fontsize=12)
+        plt.xlabel('\nCase growth (% growth in cumulative cases in 7-d window)', fontsize=12)
+        plt.ylabel('\n% of unvaxxed population jabbed in 7-d window'\n, fontsize=12)
         plt.title('Correlation Between Cases & Vaccinations\n' + start + ' to ' + end, fontsize=16, y=1.035)
         
         return g, legend_labels
