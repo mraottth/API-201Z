@@ -359,7 +359,7 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end, axs):
 
     fig, ax = plt.subplots(nrows=2, ncols=1, figsize=(12,8))
     sns.lineplot(
-        data=data.query(' @start <= date <= @end'),
+        data=dasta.query(' @start <= date <= @end'),
         x='date',
         y='WoW_%_cases',
         hue=hue_col,
@@ -377,14 +377,14 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end, axs):
         ax=axs[1]
     )
     plt.suptitle(title, y=0.95, fontsize=20)
-    ax[0].set_xlabel(None)
-    ax[1].set_xlabel(None)
-    ax[0].set_ylabel('Case growth', fontsize=13)
-    ax[1].set_ylabel('Vaxination growth', fontsize=13)
-    ax[0].yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
-    ax[1].yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
-    ax[0].grid(True, which='both', axis='both', alpha=0.2)   
-    ax[1].grid(True, which='both', axis='both', alpha=0.2)  
+    axs[0].set_xlabel(None)
+    axs[1].set_xlabel(None)
+    axs[0].set_ylabel('Case growth', fontsize=13)
+    axs[1].set_ylabel('Vaxination growth', fontsize=13)
+    axs[0].yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+    axs[1].yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+    axs[0].grid(True, which='both', axis='both', alpha=0.2)   
+    axs[1].grid(True, which='both', axis='both', alpha=0.2)  
 
 
 
