@@ -496,12 +496,20 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
     
     ar = agg_reg(data, groupby, hue_levels, start=start, end=end, ax=sub3)
     ar
-    sub3.legend(
-        ar[1],
-        loc=4, 
-        # loc='upper left', 
-        frameon=True
-    )
+
+    # Create custom legend
+    custom_legend = []
+    for k, v in hue_levels.items():
+        custom_legend.append(Line2D([0], [0], color=v, lw=2))
+    
+    sub3.legend(custom_legend, ar[1], loc=4, frameon=True)
+
+    # sub3.legend(        
+    #     ar[1],               
+    #     loc=4, 
+    #     # loc='upper left', 
+    #     frameon=True
+    # )
         
     plt.setp(ax.get_xticklabels(), fontsize=0)
     plt.setp(ax.get_yticklabels(), fontsize=0)
