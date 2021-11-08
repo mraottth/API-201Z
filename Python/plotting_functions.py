@@ -359,7 +359,7 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end, axs):
 
     fig, ax = plt.subplots(nrows=2, ncols=1, figsize=(12,8))
     sns.lineplot(
-        data=dasta.query(' @start <= date <= @end'),
+        data=data.query(' @start <= date <= @end'),
         x='date',
         y='WoW_%_cases',
         hue=hue_col,
