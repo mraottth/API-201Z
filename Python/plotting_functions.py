@@ -376,7 +376,7 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end, axs):
         alpha=0.7,
         ax=axs[1]
     )
-    axs[0].title(title, fontsize=18, y=1.04)
+    axs[0].set_title(title, fontsize=18, y=1.04)
     axs[0].set_xlabel(None)
     axs[1].set_xlabel(None)
     axs[0].set_ylabel('Case growth', fontsize=12)
