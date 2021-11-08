@@ -461,6 +461,7 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
                 robust=False,                    
                 color=list(hue_levels.values())[0],
                 scatter_kws={"alpha": 0.55},
+                line_kws=line_kws,
                 ax=ax 
                 )
         legend_labels = []
