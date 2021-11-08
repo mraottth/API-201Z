@@ -357,7 +357,7 @@ def agg_jp(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE):
 
 def case_and_vax_plot(data, hue_col, hue_levels, title, start, end, axs):
 
-    fig, ax = plt.subplots(nrows=2, ncols=1, figsize=(12,8))
+    # fig, ax = plt.subplots(nrows=2, ncols=1, figsize=(12,8))
     sns.lineplot(
         data=data.query(' @start <= date <= @end'),
         x='date',
