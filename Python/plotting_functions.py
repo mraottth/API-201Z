@@ -355,7 +355,7 @@ def agg_jp(data, groupby, hue_levels, suptitle, start=START_DATE, end=END_DATE):
             bbox_inches = "tight", dpi=150)
 
 
-def case_and_vax_plot(data, hue_col, hue_levels, title, start, end):
+def case_and_vax_plot(data, hue_col, hue_levels, title, start, end, axs):
 
     fig, ax = plt.subplots(nrows=2, ncols=1, figsize=(12,8))
     sns.lineplot(
@@ -365,7 +365,7 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end):
         hue=hue_col,
         palette=list(hue_levels.values()),
         alpha=0.7,
-        ax=ax[0]
+        ax=axs[0]
     )
     sns.lineplot(
         data=data.query(' @start <= date <= @end'),
@@ -374,7 +374,7 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end):
         hue=hue_col,
         palette=list(hue_levels.values()),
         alpha=0.7,
-        ax=ax[1]
+        ax=axs[1]
     )
     plt.suptitle(title, y=0.95, fontsize=20)
     ax[0].set_xlabel(None)
