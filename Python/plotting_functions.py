@@ -376,10 +376,11 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end, axs):
         alpha=0.7,
         ax=axs[1]
     )
-    axs[0].set_title(title, fontsize=16, y=1.07)
+    axs[0].set_title(title, fontsize=16, y=1.08)
     axs[0].set_xlabel(None)
     axs[1].set_xlabel(None)
-    plt.xticks(rotation=45)
+    axs[0].xticks(rotation=45)
+    axs[1].xticks(rotation=45)
     axs[0].set_ylabel('Case growth', fontsize=12)
     axs[1].set_ylabel('Vaxination growth', fontsize=12)
     axs[0].yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
