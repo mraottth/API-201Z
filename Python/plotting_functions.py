@@ -394,7 +394,6 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end, axs):
 
 
 
-
 def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=END_DATE):
     
     fig, ax = plt.subplots(figsize=(16,8))
@@ -495,7 +494,7 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
         axs=(sub1, sub2)
         )
     
-    ar = agg_reg(data.query('@start <= date <= @end'), groupby, hue_levels, ax=sub3)
+    ar = agg_reg(data, groupby, hue_levels, start=start, end=end, ax=sub3)
     ar
     sub3.legend(
         ar[1],
