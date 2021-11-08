@@ -379,8 +379,8 @@ def case_and_vax_plot(data, hue_col, hue_levels, title, start, end, axs):
     axs[0].set_title(title, fontsize=16, y=1.08)
     axs[0].set_xlabel(None)
     axs[1].set_xlabel(None)
-    axs[0].tick_params(axis='x', rotation=45)
-    axs[1].tick_params(axis='x', rotation=45)
+    axs[0].tick_params(axis='x', rotation=45, ha='right')
+    axs[1].tick_params(axis='x', rotation=45, ha='right')
     axs[0].set_ylabel('Case growth', fontsize=12)
     axs[1].set_ylabel('Vaxination growth', fontsize=12)
     axs[0].yaxis.set_major_formatter(mtick.PercentFormatter(1.0))
@@ -398,9 +398,9 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
     
     fig, ax = plt.subplots(figsize=(16,8))
 
-    sub1 = fig.add_subplot(2,2,1) # two rows, two columns, fist cell
-    sub2 = fig.add_subplot(2,2,3) # two rows, two columns, second cell
-    sub3 = fig.add_subplot(2,2,(2,4)) # two rows, two colums, combined third and fourth cell
+    sub1 = fig.add_subplot(2,2,2) # two rows, two columns, 2nd cell
+    sub2 = fig.add_subplot(2,2,4) # two rows, two columns, 4th cell
+    sub3 = fig.add_subplot(2,2,(1,3)) # two rows, two colums, combined first and third cell
 
     ax.spines['top'].set_visible(False)
     ax.spines['bottom'].set_visible(False)
