@@ -9,19 +9,19 @@
 
 ### Inputs
 - Data Sources
-- Libraries & Packages
 
 
 ### Code
+- Libraries & Packages
 - Importing and cleaning data
 - Plotting functions
 - Exploratory data analysis & summary stats
-- Statistical analysis
+- Statistical analyses
 - R Markdown file
 
 
 ### Outputs
 - Plots
-- Tables
+- Result Tables
 - CSVs
 
