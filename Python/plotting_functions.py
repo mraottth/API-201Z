@@ -502,7 +502,7 @@ def vax_cases_and_correlation(data, groupby, hue_levels, start=START_DATE, end=E
     for k, v in hue_levels.items():
         custom_legend.append(Line2D([0], [0], color=v, lw=2))
     
-    sub3.legend(custom_legend, ar[1], loc=4, frameon=True)
+    sub3.legend(custom_legend, ar[1], loc='best', frameon=True)
 
     # sub3.legend(        
     #     ar[1],               
