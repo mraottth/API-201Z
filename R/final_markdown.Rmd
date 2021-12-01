@@ -1,7 +1,8 @@
 ---
-title: "API-201z Final Project"
+title: "API-201Z Final Project"
+author: "Oscar Boochever, Charlotte Ross, Matt Roth, Andrew Wei"
 # output: html_document
-output: rmarkdown::github_document
+output: github_document
 urlcolor: blue
 ---
 
