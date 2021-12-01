@@ -1,0 +1,15 @@
+---
+title: "API-201z Final Project"
+output: html_document
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+# Executive Summary
+
+Our team aims to answer whether the social vulnerability index (SVI) of where Americans live influenced their willingness to receive the COVID-19 vaccine, and if so whether vaccine hesitancy reasons differ among the three SVI buckets (low, medium, high). SVIs correspond to Census tracts, and measure how resilient communities are to health stressors such as disease or natural disaster, based on a combination of demographic and socioeconomic factors. We employ Census Bureau Pulse survey data from June 23rd to July 5th on unvaccinated individuals’ reasons for vaccine hesitancy, as well as state-level SVI by averaging per county SVI (weighted by county population) from the CDC. We first find that individuals in high SVI states are more willing to get vaccinated conditional on being unvaccinated, despite being less vaccinated overall. Second, we find high SVI states are more responsive than low SVI states to COVID-19 case increases in terms of subsequent vaccine uptake using comparative correlation. Third, in attempting to see if reasons for vaccine hesitancy across SVI groups influence the prior results, we find that vaccine hesitancy reasons do differ significantly across high and low SVI states using Chi-Squared test analysis. Lastly, in order to provide insight on the observed differences in vaccine hesitancy reasons at large, we focus on “Doctor Has Not Recommended It” (rationale explained in Method Description) and find significant differences in the proportion of high SVI and low SVI states that have chosen this hesitancy reason using two-proportion test analysis. 
+
