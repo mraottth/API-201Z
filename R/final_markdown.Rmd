@@ -1,6 +1,7 @@
 ---
 title: "API-201z Final Project"
-output: html_document
+# output: html_document
+output: rmarkdown::github_document
 urlcolor: blue
 ---
 
