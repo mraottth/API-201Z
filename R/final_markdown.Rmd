@@ -1,8 +1,10 @@
 ---
-title: "API-201Z Final Project"
+title: "Project Title"
+date: "API-201Z  |  December 02, 2021"
 author: "Oscar Boochever, Charlotte Ross, Matt Roth, Andrew Wei"
-# output: html_document
-output: github_document
+output:
+  pdf_document: default
+  html_document: default
 urlcolor: blue
 ---
 
@@ -11,7 +13,143 @@ knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(warning = FALSE)
 ```
 
-# Executive Summary
+### Executive Summary
 
 Our team aims to answer whether the social vulnerability index (SVI) of where Americans live influenced their willingness to receive the COVID-19 vaccine, and if so whether vaccine hesitancy reasons differ among the three SVI buckets (low, medium, high). SVIs correspond to Census tracts, and measure how resilient communities are to health stressors such as disease or natural disaster, based on a combination of demographic and socioeconomic factors. We employ Census Bureau Pulse survey data from June 23rd to July 5th on unvaccinated individuals’ reasons for vaccine hesitancy, as well as state-level SVI by averaging per county SVI (weighted by county population) from the CDC. We first find that individuals in high SVI states are more willing to get vaccinated conditional on being unvaccinated, despite being less vaccinated overall. Second, we find high SVI states are more responsive than low SVI states to COVID-19 case increases in terms of subsequent vaccine uptake using comparative correlation. Third, in attempting to see if reasons for vaccine hesitancy across SVI groups influence the prior results, we find that vaccine hesitancy reasons do differ significantly across high and low SVI states using Chi-Squared test analysis. Lastly, in order to provide insight on the observed differences in vaccine hesitancy reasons at large, we focus on “Doctor Has Not Recommended It” (rationale explained in Method Description) and find significant differences in the proportion of high SVI and low SVI states that have chosen this hesitancy reason using two-proportion test analysis. 
 
+### Introduction
+
+In early 2020, the first cases of a novel coronavirus known as SARS-CoV-2 were detected in the U.S. By the end of 2020, the COVID-19 pandemic had claimed over 360,000 American lives <sup>[1](#endnote1)</sup>. In response, U.S. health authorities quickly gave emergency authorization for the rollout of multiple vaccines that dramatically reduced the risk of severe illness or death from COVID-19.
+
+Scarce vaccine supply hindered vaccine administration early in the rollout, creating challenges for health authorities seeking to administer the vaccine to society’s most vulnerable. However, even after supply constraints eased in July 2021, CDC statistics showed that the average vaccination rate in counties with a high Social Vulnerability Index (SVI) lagged low-SVI counties by 3 percentage points <sup>[2](#endnote3)</sup>. Some researchers attributed these continuing challenges to “vaccine hesitancy,” or the unwillingness of certain individuals to receive the vaccine even if it was available <sup>[3](#endnote3)</sup>.
+
+In this context, we chose to examine whether unvaccinated Americans’ willingness to receive the COVID-19 vaccine was affected by the SVI of the place where they resided. Whether or not social vulnerability was a relevant factor would have implications for policy initiatives that aimed to increase vaccination rates. Using datasets published by the Centers for Disease Control (CDC), Census Bureau, and The New York Times, we performed several statistical analyses to explore the relationship between these variables in July 2021, after vaccine supply issues had largely been resolved.
+
+### Data Description
+
+Our main variables of interest are Social Vulnerability Index (SVI), willingness to get vaccinated, rate changes in cases and vaccinations, and vaccine hesitancy reasons. Each variable is described below with details about their sources, how they are calculated, and where they are used in our analyses:
+
+***SVI Level:*** Social Vulnerability Index, a metric calculated by the CDC and ATSDR (Agency for Toxic Substances and Disease Registry), indicates a community’s likelihood of needing support before, during, and after a public health emergency <sup>[4](#endnote4)</sup>. SVI has been used extensively by governments, health agencies, and academics during the pandemic to identify areas with the greatest risk of experiencing severe outbreaks and health outcomes <sup>[5](#endnote5)</sup>. In our analyses, we calculate state-level SVI by averaging the CDC’s county-level SVI and weighting by county population. We then bucket SVI into Low, Moderate, and High based on the CDC’s thresholds of 0.4 and 0.6 demarcating the boundaries of the middle category. All stages of our analysis use SVI as the independent variable given its substantive importance in mitigating the worst effects of COVID.
+
+***Willingness to get vaccinated:*** The Census Bureau conducts a bi-weekly “Pulse” survey, in which they ask respondents about their vaccination status and their willingness to get vaccinated. We aggregate state-level frequency counts of willingness buckets up to SVI level, and measure vaccination intent by SVI for Stage 1. We use the June 23rd - June 5th Pulse survey for our analysis because 1) virtually all remaining unvaccinated people by this point can safely be considered ‘hesitant’ given that they have had ample time to receive the vaccine after eligibility and supply constraints were cleared, and 2) this time window gives us the last snapshot of hesitancy before the Fourth Wave of July - October 2021, which is the time period we analyzed in all stages.  
+
+***Change in case and vaccination rates:*** Using daily state-level case data compiled by the New York Times and vaccination data from the CDC, we calculate rolling 7-day averages of the percent change in cumulative cases and the percent reduction in the remaining unvaccinated population over time. These variables allow us to measure how the unvaccinated population responds to case growth across SVI levels in Stage 1.
+
+***Hesitancy reasons:*** In addition to vaccine willingness, the Census Bureau’s Pulse survey also asks unvaccinated respondents why they have not been vaccinated. They are able to select all applicable reasons from a list of 10. We use this data in Stages 3 and 4 to examine whether hesitancy reasons differ by SVI. As with Stage 1, we use the June 23rd - June 5th Pulse survey. 
+
++----------------------+---------------+--------------------------------+--------+
+| Variable             | Unit          | Definition                     | Source |
++======================+===============+================================+========+
+| Social Vulnerability | Category:     | Number between 0 and 1         | CDC    |
+| Index (SVI) Level    | Low & High    | indicating a county’s          |        |
+|                      |               | likelihood of needing support  |        |
+|                      |               | before, during and after a     |        |
+|                      |               | public health emergency        |        |
+|                      |               | (calculated from 15 census     |        |
+|                      |               | metrics, with 1 indicating the |        |
+|                      |               | highest likelihood). Low SVI <=|        |
+|                      |               | 0.4, High SVI >                |        |
+|                      |               | 0.6 <sup>[6](#endnote6)</sup>  |        | 
++----------------------+---------------+--------------------------------+--------+
+| Change in            | Percent       | % of remaining unvaccinated    | CDC    |  
+| vaccination rate     |               | people receiving jab in past 7d|        |
++----------------------+---------------+--------------------------------+--------+
+| Change in case rate  | Percent       | 7-day rolling average of new   | The New|
+|                      |               | cases                          | York   |
+|                      |               |                                | Times  |
+|                      |               |                                |        |
++----------------------+---------------+--------------------------------+--------+
+| Willingness to get   | Percent       | Self-reported vaccination      | Census |
+| Vaccinated           |               | intent from unvaccinated Census| Bureau |
+|                      |               | Bureau Pulse Survey respondents|        |
+|                      |               | respondents                    |        |  
++----------------------+---------------+--------------------------------+--------+
+| Hesitancy reasons    | Count by      | Self-reported reasons for not  | Census |
+|                      | Category      | receiving the COVID-19 vaccine | Bureau |
+|                      |               | among Pulse Survey respondents |        |
+|                      |               | who will either probably,      |        |
+|                      |               | probably not, are unsure, or   |        |
+|                      |               | will definitely not get a      |        |
+|                      |               | vaccine, or who don't plan on  |        |
+|                      |               | receiving all doses            |        |
++----------------------+---------------+--------------------------------+--------+
+
+### Description of Statistical Methods
+
+We decided to focus our data and analysis on the timeframe from July 12 - October 20th for two primary reasons. The first is that this period occurs before children under the age of 16 became eligible for the vaccine, since vaccination rates began to increase more rapidly once that eligibility change went into effect. The second is that this time frame corresponds with the emergence of the fourth wave of the Delta variant, which will have greater policy implications as we potentially approach a fifth wave of the Omnicron variant. Within this timeframe, we then conducted four stages of analysis.
+
+***First stage.*** We perform a chi-squared test between the high and low SVI levels to evaluate whether Americans’ willingness to get vaccinated differed based on social vulnerability. Similar to the first stage, we used the state-level aggregations to categorize the data into high and low SVI categories.
+
+***Second stage.*** We analyze how the relationship between COVID-19 case growth and vaccine uptake differs for each SVI bucket in order to determine whether responsiveness to caseload was correlated to social vulnerability. We use the county-level SVI data from the CDC and then calculate the weighted average by population to determine each state’s SVI level. We then calculate the correlation between case growth and vaccine uptake for each SVI bucket and graph the observations and regression lines on a scatter plot. 
+
+***Third stage.*** We perform another chi-squared test between high and low SVI levels and vaccine hesitancy reasons to investigate whether Americans’ reasons for not getting vaccinated differed based on their social vulnerability. We include this analysis to further investigate the results from the earlier two stages and evaluate whether hesitancy reasons were related to the differences in Americans’ willingness to get vaccinated. 
+
+**Fourth stage.** We hone in on one particular hesitancy reason that we hypothesize has the most explanatory power in uncovering why we see aggregate differences across all hesitancy reasons for high versus low SVI states. We choose “Doctor Has Not Recommended It” for two main reasons: unlike other hesitancy reasons that have to do with personal taste, trust, or concern, this one is less related to who someone is, and more related to the availability or quality of doctor relationships. We also hypothesize that high SVI states, which are those most vulnerable to health shocks, are likely to have more individuals without a doctor or quality doctor: this comes from our first stage evidence that high SVI states are more willing to be vaccinated despite being less vaccinated on average. 
+
+We run a two-proportion test comparing the percentage of high-SVI respondents selecting the “Doctor Has Not Recommended It” reason  $P(HighSVI)$ to the percentage of low-SVI respondents selecting the “Doctor Has Not Recommended it” reason $P(LowSVI)$. Our null hypothesis is $P(HighSVI)$ = $P(LowSVI)$ and our alternative hypothesis is $P(HighSVI)$ > $P(LowSVI)$.
+
+### Results
+
+We find several insights from the above four stages of analysis:
+
+***1. Individuals in high-SVI counties are on average more willing to be vaccinated.*** The bar chart shows the distribution of survey respondents’ attitudes toward vaccination, separated by those living in low- and high-SVI counties. Visual inspection shows that high-SVI respondents tend to skew toward the right (more willing to be vaccinated), and statistical tests confirm that the difference between the two distributions is statistically significant.
+
+!['High SVI states are more willing to get vaccinated'](result1.png) \newline
+
+
+***2. The vaccination rate of high-SVI states is more responsive to rising cases compared to low-SVI states.*** Figure 1 illustrates how the relationship between change in vaccination rate and change in COVID-19 case rate differs for each SVI level. High-SVI states have the greatest slope of 0.507, meaning that these states have the greatest responsiveness to increasing case rates. 
+
+!['Vaccination rate is most responsive to caseload in High SVI states'](result2.png)\newline
+
+
+***3. Unvaccinated individuals in high-SVI states had meaningfully different reasons for not receiving the vaccine when compared with their counterparts in low-SVI states.*** Our chi-squared test between low- and high-SVI states resulted in a p-value less than 2.2e-16, meaning that there is substantive evidence to reject the null hypothesis that the distribution of hesitancy reasons is the same for low- and high-SVI groups.
+
+
+***4. Vaccine-hesitant individuals in high-SVI counties are more likely to cite a lack of a doctor’s recommendation as a reason when compared with their counterparts in low-SVI counties.*** Our two-proportions test reveals that the the proportion of 07524981 0.06733966
+
+
+### Limitations
+
+There were a few limitations in this research. The first is our method of proxying each state’s SVI level using the weighted averages of county-level data. This approach does not address the variation of social vulnerability within each state and thus neglects the possibility that respondents from a low-SVI state may still be very socially vulnerable. A second limitation is that Census Bureau Pulse’s survey data includes hesitancy reason responses from individuals who selected that they “probably will receive” the vaccine, meaning that not all respondents may be truly hesitant. A third limitation is that in our third stage of analysis, the twelve different reasons for vaccine hesitancy mean that it is easier for chi-squared tests to have statistically significant results because it is more likely for hesitancy to be unequally distributed as the number of hesitancy reasons increase. 
+
+### Conclusion
+
+As new COVID-19 variants and outbreaks continue to emerge, vaccination remains the best tool at policymakers’ disposal. The low vaccination rate of high-SVI areas continues to be a concern. However, we find that individuals living in these high-SVI areas had both greater willingness to be vaccinated and greater responsiveness to rising cases in July 2021 during the “fourth wave” in the U.S. This result challenges the assumption that low vaccination rates in vulnerable areas can be solely attributed to vaccine hesitancy. At the same time, we also demonstrate that vaccine-hesitant individuals in high-SVI communities have unique concerns that are distinct from their counterparts in low-SVI communities.
+
+The tension between low vaccination rates and high willingness to be vaccinated in high-SVI areas indicates two potential areas for further exploration. First, additional research is needed to determine whether access issues remain that prevent willing individuals from receiving the vaccine (for example, fear of side effects that would prevent an individual from going to work). Second, while we studied one reason for vaccine hesitancy (lack of doctor’s recommendation), further study is necessary to understand the specific concerns that still sustain vaccine hesitancy among pockets of individuals in high-SVI communities.
+
+\newpage
+
+### Technical Appendix
+
+List of hesitancy reasons
+
+* Concerned about possible side effects
+* Don’t know if a vaccine will work
+* Don’t believe I need a vaccine
+* Don’t like vaccines
+* Doctor has not recommended it
+* Plan to wait and see if it is safe
+* Other people need it more right now
+* Concerned about the cost
+* Don’t trust COVID-19 vaccines
+* Don’t trust the government
+* Other
+* Did not report
+
+
+\newpage
+
+***Endnotes:*** \newline
+
+<a name="endnote1">1</a>: https://covid.cdc.gov/covid-data-tracker/#trends_totaldeaths
+
+<a name="endnote2">2</a>: https://healthpolicy.usc.edu/research/covid-19-vaccine-county-rate-analysis/
+
+<a name="endnote3">3</a>: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8030992/
+
+<a name="endnote4">4</a>: https://www.atsdr.cdc.gov/placeandhealth/svi/index.html
+
+<a name="endnote5">5</a>: https://www.atsdr.cdc.gov/placeandhealth/project_snapshots/svitool_covid.html
+
+<a name="endnote6">6</a>: https://www.atsdr.cdc.gov/placeandhealth/svi/index.html
