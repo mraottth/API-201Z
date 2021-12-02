@@ -105,7 +105,7 @@ Figure 1: CDC Pulse Survey Vaccine Willingness Responses (June 23, 2021 - July 5
 
 Figure 2: Change in vaccination rate and change in COVID-19 case rate (July 12th - Oct 28th 2021)
 
-!['Vaccination rate is most responsive to caseload in High SVI states'](result2.png)\newline
+!['Vaccination rate is most responsive to caseload in High SVI states'](figure2.png)\newline
 
 
 ***3. Unvaccinated individuals in high-SVI states had meaningfully different reasons for not receiving the vaccine when compared with their counterparts in low-SVI states.*** Our chi-squared test between low- and high-SVI states showed that the difference in reasons people in low- and high-SVI states were hesitant to receive the COVID-19 vaccine was statistically significant. Two key results in particular were that respondents from high-SVI states were less likely to trust the government than respondents from low-SVI states (10.2% of responses vs. 11.2%) and were more likely to trust the COVID-19 vaccine (15.7% of responses vs. 14.5%). 
