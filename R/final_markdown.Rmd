@@ -153,7 +153,7 @@ To compare willingness to get vaccinated across SVI levels, we compared the dist
 
 ### Second Stage Analysis:
 
-To examine how responsive the unvaccinated population is to rate changes in in-state case growth, we calculated a per-day, per-SVI-Level coordinate pair of case growth* and vaccination response** before running a linear least-squares regression on the data (Figure 4). We find that High SVI states are the most responsive to case growth rate, as indicated by its high slope and r value (Table 4). This finding is consistent with our results from Stage 1, which shows that hesitancy is less firmly held in High SVI states. [Python Code](https://github.com/mraottth/API-201Z/blob/main/Python/stage2.py)
+To examine how responsive the unvaccinated population is to rate changes in in-state case growth, we calculated a per-day, per-SVI-Level coordinate pair of case growth* and vaccination response** before running a linear least-squares regression and correlation analysis on the data (Figure 4). We find that High SVI states are the most responsive to case growth rate, as indicated by its high slope and r value (Table 4). This finding is consistent with our results from Stage 1, which shows that hesitancy is less firmly held in High SVI states. [Python Code](https://github.com/mraottth/API-201Z/blob/main/Python/stage2.py)
 
 *The % growth in cumulative cases in the past 7 days, per-day per-SVI level)
 
