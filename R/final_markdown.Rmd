@@ -1,5 +1,5 @@
 ---
-title: "Project Title"
+title: "Examining COVID-19 Vaccine Hesitancy by Social Vulnerability"
 date: "API-201Z  |  December 02, 2021"
 author: "Oscar Boochever, Charlotte Ross, Matt Roth, Andrew Wei"
 output:
