@@ -13,7 +13,7 @@ def import_data():
 
 
     # Read in csv of state abbreviations and names. Use to join to df_vax to prep for merging with cases
-    states = pd.read_csv('/Users/mattroth/Desktop/HKS/MPP1/Fall 2021/API-201 Quant/Final Project Charts/states.csv')
+    states = pd.read_csv('/Users/mattroth/Desktop/HKS/MPP1/Fall 2021/API-201 Quant/Final Project/Final Project Charts/states.csv')
 
 
     # Read in state population table to calculate size of unvaccinated pool
@@ -22,7 +22,7 @@ def import_data():
 
 
     # Read in election data 
-    election = pd.read_csv('/Users/mattroth/Desktop/HKS/MPP1/Fall 2021/API-201 Quant/Final Project Charts/2020 results.csv')
+    election = pd.read_csv('/Users/mattroth/Desktop/HKS/MPP1/Fall 2021/API-201 Quant/Final Project/Final Project Charts/2020 results.csv')
 
 
     # Read in SVI data (from CDC county level). Will need to group by state and take weighted avg by population later
